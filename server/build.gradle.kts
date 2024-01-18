@@ -5,7 +5,7 @@ plugins {
 group = "name.tlphat.ministore"
 
 application {
-    mainClass.set("name.tlphat.ministore.server.Server")
+    mainClass.set("name.tlphat.ministore.server.Application")
 }
 
 repositories {
