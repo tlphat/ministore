@@ -1,11 +1,10 @@
 package name.tlphat.ministore.server;
 
 import lombok.extern.slf4j.Slf4j;
-import name.tlphat.ministore.server.app.CommandExecutor;
-import name.tlphat.ministore.server.app.CommandParser;
-import name.tlphat.ministore.server.app.impl.CommandExecutorImpl;
-import name.tlphat.ministore.server.app.impl.CommandParserImpl;
-import name.tlphat.ministore.server.app.impl.SocketServer;
+import name.tlphat.ministore.server.app.executor.CommandExecutorFactory;
+import name.tlphat.ministore.server.app.parser.CommandParser;
+import name.tlphat.ministore.server.app.parser.CommandParserImpl;
+import name.tlphat.ministore.server.app.SocketServer;
 import name.tlphat.ministore.server.controllers.DataController;
 import name.tlphat.ministore.server.controllers.impl.DataControllerImpl;
 import name.tlphat.ministore.server.store.DataStore;
@@ -25,9 +24,9 @@ public class Application {
 
         final DataStore dataStore = new InMemoryStore();
         final DataController dataController = new DataControllerImpl(dataStore);
-        final CommandExecutor commandExecutor = new CommandExecutorImpl(dataController);
+        final CommandExecutorFactory commandExecutorFactory = new CommandExecutorFactory(dataController);
 
-        try (final SocketServer server = new SocketServer(commandParser, commandExecutor, SERVER_PORT)) {
+        try (final SocketServer server = new SocketServer(commandParser, commandExecutorFactory, SERVER_PORT)) {
             log.info("Server is ready to serve connections");
 
             //noinspection InfiniteLoopStatement

@@ -1,6 +1,5 @@
-package name.tlphat.ministore.server.app.impl;
+package name.tlphat.ministore.server.app.parser;
 
-import name.tlphat.ministore.server.app.CommandParser;
 import name.tlphat.ministore.server.app.dto.CommandType;
 import name.tlphat.ministore.server.app.dto.Tokens;
 
