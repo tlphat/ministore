@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import name.tlphat.ministore.server.app.CommandExecutor;
 import name.tlphat.ministore.server.app.CommandParser;
 import name.tlphat.ministore.server.app.Server;
+import name.tlphat.ministore.server.app.dto.CommandType;
 import name.tlphat.ministore.server.app.dto.Tokens;
 
 import java.io.BufferedReader;
@@ -33,25 +34,38 @@ public class SocketServer implements Server, AutoCloseable {
         serverSocket = new ServerSocket(port);
     }
 
+    private boolean receivedExitCommand = false;
+
     @Override
     public void handleConnection() throws IOException {
         try (final Socket socket = serverSocket.accept()) {
-            log.info("Connection received, handling the connection");
+            while (!receivedExitCommand) {
+                log.info("Connection received, handling the connection");
 
-            final InputStream inputStream = socket.getInputStream();
-            final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            final String command = bufferedReader.readLine();
+                final InputStream inputStream = socket.getInputStream();
+                final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                final String command = bufferedReader.readLine();
 
-            log.info("Command received: {}", command);
-            final Tokens tokens = commandParser.parse(command);
-            log.info("Token parsed: {}", tokens);
-            final String response = commandExecutor.execute(tokens);
-            log.info("Response: {}", response);
+                log.info("Command received: {}", command);
 
-            final OutputStream outputStream = socket.getOutputStream();
-            final PrintWriter printWriter = new PrintWriter(outputStream);
-            printWriter.println(response);
-            printWriter.flush();
+                final Tokens tokens = commandParser.parse(command);
+                log.info("Token parsed: {}", tokens);
+                turnOnExitFlagUponReceiveExitCommand(tokens);
+
+                final String response = commandExecutor.execute(tokens);
+                log.info("Response: {}", response);
+
+                final OutputStream outputStream = socket.getOutputStream();
+                final PrintWriter printWriter = new PrintWriter(outputStream);
+                printWriter.println(response);
+                printWriter.flush();
+            }
+        }
+    }
+
+    private void turnOnExitFlagUponReceiveExitCommand(Tokens tokens) {
+        if (tokens.commandType() == CommandType.EXIT) {
+            receivedExitCommand = true;
         }
     }
 

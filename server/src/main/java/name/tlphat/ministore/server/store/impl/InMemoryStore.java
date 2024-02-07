@@ -11,11 +11,20 @@ public class InMemoryStore implements DataStore {
 
     public InMemoryStore() {
         data = new HashMap<>();
-        data.put("x", "value");
     }
 
     @Override
     public String getValue(String key) {
         return (String) data.get(key);
+    }
+
+    @Override
+    public boolean setString(String key, String value) {
+        try {
+            data.put(key, value);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
     }
 }
