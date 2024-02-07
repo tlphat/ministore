@@ -17,6 +17,7 @@ public class CommandExecutorImpl implements CommandExecutor {
         return switch (tokens.commandType()) {
             case GET -> executeGetString(tokens);
             case SET -> executeSetString(tokens);
+            case EXIT -> "OK";
             default -> "Operation not supported";
         };
     }

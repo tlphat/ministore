@@ -10,8 +10,9 @@ import java.util.Map;
 public class CommandParserImpl implements CommandParser {
 
     private static final Map<String, CommandType> COMMAND_MAP = Map.of(
-        "GET", CommandType.GET,
-        "SET", CommandType.SET
+        "get", CommandType.GET,
+        "set", CommandType.SET,
+        "exit", CommandType.EXIT
     );
 
     @Override
