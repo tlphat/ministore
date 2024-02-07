@@ -5,13 +5,19 @@ import name.tlphat.ministore.server.app.dto.CommandType;
 import name.tlphat.ministore.server.app.dto.Tokens;
 
 import java.util.List;
+import java.util.Map;
 
 public class CommandParserImpl implements CommandParser {
+
+    private static final Map<String, CommandType> COMMAND_MAP = Map.of(
+        "GET", CommandType.GET,
+        "SET", CommandType.SET
+    );
 
     @Override
     public Tokens parse(String command) {
         final String[] words = command.split(" ");
-        final CommandType commandType = "GET".equals(words[0]) ? CommandType.GET : CommandType.UNSUPPORTED;
+        final CommandType commandType = COMMAND_MAP.getOrDefault(words[0], CommandType.UNSUPPORTED);
         final List<String> arguments = java.util.Arrays.stream(words, 1, words.length).toList();
         return new Tokens(commandType, arguments);
     }
