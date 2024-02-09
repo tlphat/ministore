@@ -32,7 +32,11 @@ public class RightPushListImpl implements RightPushListUseCase {
         }
 
         // Append to list
-        dataAccess.appendRightToList(key, value);
-        return view.prepareSuccessfulView();
+        try {
+            dataAccess.appendRightToList(key, value);
+            return view.prepareSuccessfulView();
+        } catch (Exception ex) {
+            return view.prepareFailedView(RightPushStringError.INTERNAL_SERVER_ERROR);
+        }
     }
 }
