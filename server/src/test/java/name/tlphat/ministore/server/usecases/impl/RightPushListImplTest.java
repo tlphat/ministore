@@ -39,6 +39,12 @@ class RightPushListImplTest {
         assertEquals("VALUE_SIZE_TOO_LARGE", actual);
     }
 
+    @Test
+    void rightPushStringExceedsSizeLimitNoAppend() {
+        useCase.rightPush("key", "valueeeee");
+        assertEquals("unchanged", dataAccess.status);
+    }
+
     private static class RightPushListDataAccessStub implements RightPushListDataAccess {
 
         private String status = "unchanged";
