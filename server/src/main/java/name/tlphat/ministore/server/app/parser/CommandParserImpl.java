@@ -11,6 +11,7 @@ public class CommandParserImpl implements CommandParser {
     private static final Map<String, CommandType> COMMAND_MAP = Map.of(
         "get", CommandType.GET,
         "set", CommandType.SET,
+        "rpush", CommandType.RPUSH,
         "exit", CommandType.EXIT
     );
 
