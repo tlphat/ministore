@@ -1,6 +1,7 @@
 package name.tlphat.ministore.server.usecases.impl;
 
 import name.tlphat.ministore.server.usecases.constants.RightPushStringError;
+import name.tlphat.ministore.server.usecases.exceptions.DataAccessException;
 import name.tlphat.ministore.server.usecases.ports.RightPushListDataAccess;
 import name.tlphat.ministore.server.usecases.ports.RightPushListView;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,12 +46,27 @@ class RightPushListImplTest {
         assertEquals("unchanged", dataAccess.status);
     }
 
+    @Test
+    void rightPushStringDataAccessException() {
+        final String actual = useCase.rightPush("key", "error");
+        assertEquals("INTERNAL_SERVER_ERROR", actual);
+    }
+
+    @Test
+    void rightPushStringDataAccessExceptionNoAppend() {
+        useCase.rightPush("key", "error");
+        assertEquals("unchanged", dataAccess.status);
+    }
+
     private static class RightPushListDataAccessStub implements RightPushListDataAccess {
 
         private String status = "unchanged";
 
         @Override
         public void appendRightToList(String key, String value) {
+            if ("error".equals(value)) {
+                throw new DataAccessException();
+            }
             status = "appended";
         }
     }
@@ -64,7 +80,7 @@ class RightPushListImplTest {
 
         @Override
         public String prepareFailedView(RightPushStringError error) {
-            return "VALUE_SIZE_TOO_LARGE";
+            return error.toString();
         }
     }
 }

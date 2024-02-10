@@ -4,6 +4,7 @@ public enum CommandType {
 
     GET,
     SET,
+    RPUSH,
     EXIT,
     UNSUPPORTED,
 }
