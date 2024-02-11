@@ -20,21 +20,28 @@ public class GetListElementImpl implements GetListElementUseCase {
 
     @Override
     public String getElementAtIndex(String key, int index) {
+        if (indexOutOfLowerBound(index)) {
+            return view.prepareFailedView(GetListElementError.INDEX_OUT_OF_BOUND);
+        }
+
         if (!dataAccess.isListExisted(key)) {
             return view.prepareFailedView(GetListElementError.LIST_NOT_EXISTED);
         }
 
-        if (index < 0) {
-            return view.prepareFailedView(GetListElementError.INDEX_OUT_OF_BOUND);
-        }
-
-        final int listSize = dataAccess.getListSize(key);
-        if (index >= listSize) {
+        if (indexOutOfUpperBound(key, index)) {
             return view.prepareFailedView(GetListElementError.INDEX_OUT_OF_BOUND);
         }
 
         final String element = dataAccess.getElementAtIndex(key, index);
 
         return view.prepareSuccessfulView(element);
+    }
+
+    private boolean indexOutOfLowerBound(int index) {
+        return index < 0;
+    }
+
+    private boolean indexOutOfUpperBound(String key, int index) {
+        return index >= dataAccess.getListSize(key);
     }
 }
