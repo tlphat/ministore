@@ -46,4 +46,31 @@ public class InMemoryStore implements DataStore {
             return false;
         }
     }
+
+    @Override
+    public boolean isListExisted(String key) {
+        return stringListData.containsKey(key);
+    }
+
+    @Override
+    public int getListSize(String key) {
+        final List<String> list = stringListData.get(key);
+
+        if (list == null) {
+            throw new IllegalArgumentException();
+        }
+
+        return list.size();
+    }
+
+    @Override
+    public String getAndPopRightmostElement(String key) {
+        final List<String> list = stringListData.get(key);
+
+        if (list == null || list.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+
+        return list.remove(list.size() - 1);
+    }
 }

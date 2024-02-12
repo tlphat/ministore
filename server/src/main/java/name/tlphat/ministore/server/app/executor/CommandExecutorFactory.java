@@ -3,6 +3,7 @@ package name.tlphat.ministore.server.app.executor;
 import name.tlphat.ministore.server.app.dto.CommandType;
 import name.tlphat.ministore.server.app.executor.impl.ExitCommandExecutorImpl;
 import name.tlphat.ministore.server.app.executor.impl.GetCommandExecutorImpl;
+import name.tlphat.ministore.server.app.executor.impl.RightPopCommandExecutorImpl;
 import name.tlphat.ministore.server.app.executor.impl.RightPushCommandExecutorImpl;
 import name.tlphat.ministore.server.app.executor.impl.SetCommandExecutorImpl;
 import name.tlphat.ministore.server.app.executor.impl.UnsupportedCommandExecutorImpl;
@@ -21,6 +22,7 @@ public class CommandExecutorFactory {
             case GET -> new GetCommandExecutorImpl(dataController);
             case SET -> new SetCommandExecutorImpl(dataController);
             case RPUSH -> new RightPushCommandExecutorImpl(dataController);
+            case RPOP -> new RightPopCommandExecutorImpl(dataController);
             case EXIT -> new ExitCommandExecutorImpl();
             default -> new UnsupportedCommandExecutorImpl();
         };

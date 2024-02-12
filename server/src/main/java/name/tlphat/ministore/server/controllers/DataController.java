@@ -7,4 +7,6 @@ public interface DataController {
     String setStringValue(String key, String value);
 
     String rightPushStringList(String key, String value);
+
+    String rightPopStringList(String key);
 }

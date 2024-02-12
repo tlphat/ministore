@@ -7,4 +7,10 @@ public interface DataStore {
     boolean setString(String key, String value);
 
     boolean appendToList(String key, String value);
+
+    boolean isListExisted(String key);
+
+    int getListSize(String key);
+
+    String getAndPopRightmostElement(String key);
 }

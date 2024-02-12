@@ -12,6 +12,7 @@ public class CommandParserImpl implements CommandParser {
         "get", CommandType.GET,
         "set", CommandType.SET,
         "rpush", CommandType.RPUSH,
+        "rpop", CommandType.RPOP,
         "exit", CommandType.EXIT
     );
 
