@@ -1,4 +1,4 @@
-package name.tlphat.ministore.server.usecases.adapters;
+package name.tlphat.ministore.server.adapters;
 
 import name.tlphat.ministore.server.usecases.constants.RightPushStringError;
 import name.tlphat.ministore.server.usecases.ports.RightPushListView;

@@ -10,7 +10,7 @@ import name.tlphat.ministore.server.store.DataStore;
 import name.tlphat.ministore.server.usecases.GetStringUseCase;
 import name.tlphat.ministore.server.usecases.RightPushListUseCase;
 import name.tlphat.ministore.server.usecases.SetStringUseCase;
-import name.tlphat.ministore.server.usecases.adapters.RightPushListViewImpl;
+import name.tlphat.ministore.server.adapters.RightPushListViewImpl;
 import name.tlphat.ministore.server.usecases.impl.GetStringImpl;
 import name.tlphat.ministore.server.usecases.impl.RightPushListImpl;
 import name.tlphat.ministore.server.usecases.impl.SetStringImpl;
