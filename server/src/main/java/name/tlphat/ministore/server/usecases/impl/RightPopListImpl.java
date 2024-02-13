@@ -24,11 +24,11 @@ public class RightPopListImpl implements RightPopListUseCase {
             return view.prepareFailedView(RightPopListError.NOT_EXISTED);
         }
 
-        if (dataAccess.isListEmpty(key)) {
-            return view.prepareFailedView(RightPopListError.LIST_ALREADY_EMPTY);
-        }
-
         final String poppedElement = dataAccess.rightPop(key);
+
+        if (dataAccess.isListEmpty(key)) {
+            dataAccess.removeList(key);
+        }
 
         return view.prepareSuccessfulView(poppedElement);
     }

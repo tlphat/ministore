@@ -26,4 +26,9 @@ public class RightPopListDataAccessImpl implements RightPopListDataAccess {
     public String rightPop(String key) {
         return dataStore.getAndPopRightmostElement(key);
     }
+
+    @Override
+    public void removeList(String key) {
+        dataStore.removeList(key);
+    }
 }

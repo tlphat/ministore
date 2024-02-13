@@ -5,12 +5,10 @@ import name.tlphat.ministore.server.usecases.constants.RightPopListError;
 import name.tlphat.ministore.server.usecases.ports.RightPopListDataAccess;
 import name.tlphat.ministore.server.usecases.ports.RightPopListView;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 class RightPopListImplTest {
 
@@ -29,36 +27,26 @@ class RightPopListImplTest {
     @CsvSource({
         "key, value",
         "not_existed, NOT_EXISTED",
-        "empty_list, LIST_ALREADY_EMPTY",
+        "one_element, value",
     })
-    void rightPopValue(String key, String expected) {
+    void rightPopResponseCheck(String key, String expected) {
         assertEquals(expected, useCase.rightPop(key));
     }
 
-    @Test
-    void rightPopActuallyPopValue() {
-        final String key = "key";
+    @ParameterizedTest
+    @CsvSource({
+        "key, popped",
+        "not_existed, not_invoked",
+        "one_element, removed",
+    })
+    void rightPopDataAccessStatusCheck(String key, String expected) {
         useCase.rightPop(key);
-        assertEquals(key, dataAccess.invokedKey);
-    }
-
-    @Test
-    void rightPopListNotExistedCheckNoValueGotPopped() {
-        final String key = "not_existed";
-        useCase.rightPop(key);
-        assertNull(dataAccess.invokedKey);
-    }
-
-    @Test
-    void rightPopListEmptyNotValueGotPopped() {
-        final String key = "empty_list";
-        useCase.rightPop(key);
-        assertNull(dataAccess.invokedKey);
+        assertEquals(expected, dataAccess.status);
     }
 
     private static class RightPopListDataAccessStub implements RightPopListDataAccess {
 
-        private String invokedKey;
+        private String status = "not_invoked";
 
         @Override
         public boolean isKeyExisted(String key) {
@@ -67,13 +55,18 @@ class RightPopListImplTest {
 
         @Override
         public boolean isListEmpty(String key) {
-            return "empty_list".equals(key);
+            return "one_element".equals(key);
         }
 
         @Override
         public String rightPop(String key) {
-            invokedKey = key;
+            status = "popped";
             return "value";
+        }
+
+        @Override
+        public void removeList(String key) {
+            status = "removed";
         }
     }
 

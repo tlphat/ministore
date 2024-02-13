@@ -15,4 +15,6 @@ public interface DataStore {
     String getAndPopRightmostElement(String key);
 
     boolean isStringExisted(String key);
+
+    void removeList(String key);
 }

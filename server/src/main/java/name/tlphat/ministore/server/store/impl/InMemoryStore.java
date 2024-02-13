@@ -65,4 +65,9 @@ public class InMemoryStore implements DataStore {
     public boolean isStringExisted(String key) {
         return stringData.containsKey(key);
     }
+
+    @Override
+    public void removeList(String key) {
+        stringListData.remove(key);
+    }
 }
