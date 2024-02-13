@@ -73,4 +73,9 @@ public class InMemoryStore implements DataStore {
 
         return list.remove(list.size() - 1);
     }
+
+    @Override
+    public boolean isStringExisted(String key) {
+        return stringData.containsKey(key);
+    }
 }

@@ -13,4 +13,6 @@ public interface DataStore {
     int getListSize(String key);
 
     String getAndPopRightmostElement(String key);
+
+    boolean isStringExisted(String key);
 }

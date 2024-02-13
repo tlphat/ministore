@@ -15,4 +15,9 @@ public class GetStringDataAccessImpl implements GetStringDataAccess {
     public String get(String key) {
         return dataStore.getValue(key);
     }
+
+    @Override
+    public boolean isKeyExisted(String key) {
+        return dataStore.isStringExisted(key);
+    }
 }

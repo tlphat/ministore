@@ -1,25 +1,31 @@
 package name.tlphat.ministore.server.usecases.impl;
 
 import name.tlphat.ministore.server.usecases.GetStringUseCase;
+import name.tlphat.ministore.server.usecases.constants.GetStringError;
 import name.tlphat.ministore.server.usecases.ports.GetStringDataAccess;
 import name.tlphat.ministore.server.usecases.ports.GetStringView;
 
 public class GetStringImpl implements GetStringUseCase {
 
-    private final GetStringDataAccess getStringDataAccess;
-    private final GetStringView getStringView;
+    private final GetStringDataAccess dataAccess;
+    private final GetStringView view;
 
     public GetStringImpl(
-        GetStringDataAccess getStringDataAccess,
-        GetStringView getStringView
+        GetStringDataAccess dataAccess,
+        GetStringView view
     ) {
-        this.getStringDataAccess = getStringDataAccess;
-        this.getStringView = getStringView;
+        this.dataAccess = dataAccess;
+        this.view = view;
     }
 
     @Override
     public String get(String key) {
-        final String response = getStringDataAccess.get(key);
-        return getStringView.prepareSuccessfulView(response);
+        if (!dataAccess.isKeyExisted(key)) {
+            return view.prepareFailedView(GetStringError.NOT_EXISTED);
+        }
+
+        final String response = dataAccess.get(key);
+
+        return view.prepareSuccessfulView(response);
     }
 }
