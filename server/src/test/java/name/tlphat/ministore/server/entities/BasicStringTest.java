@@ -1,6 +1,5 @@
-package name.tlphat.ministore.server.entities.string;
+package name.tlphat.ministore.server.entities;
 
-import name.tlphat.ministore.server.entities.string.BasicString;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;

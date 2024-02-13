@@ -6,6 +6,7 @@ public enum CommandType {
     SET,
     RPUSH,
     RPOP,
+    EGET,
     EXIT,
     UNSUPPORTED,
 }

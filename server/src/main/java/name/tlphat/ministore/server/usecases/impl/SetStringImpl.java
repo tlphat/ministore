@@ -1,7 +1,7 @@
 package name.tlphat.ministore.server.usecases.impl;
 
-import name.tlphat.ministore.server.entities.string.BasicString;
-import name.tlphat.ministore.server.entities.string.String;
+import name.tlphat.ministore.server.entities.BasicString;
+import name.tlphat.ministore.server.entities.String;
 import name.tlphat.ministore.server.usecases.SetStringUseCase;
 import name.tlphat.ministore.server.usecases.constants.SetStringError;
 import name.tlphat.ministore.server.usecases.ports.SetStringDataAccess;

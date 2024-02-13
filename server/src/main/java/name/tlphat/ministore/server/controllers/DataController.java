@@ -9,4 +9,6 @@ public interface DataController {
     String rightPushStringList(String key, String value);
 
     String rightPopStringList(String key);
+
+    String getListElement(String key, String indexInString);
 }

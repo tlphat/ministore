@@ -1,10 +1,10 @@
 package name.tlphat.ministore.server;
 
 import lombok.extern.slf4j.Slf4j;
+import name.tlphat.ministore.server.app.SocketServer;
 import name.tlphat.ministore.server.app.executor.CommandExecutorFactory;
 import name.tlphat.ministore.server.app.parser.CommandParser;
 import name.tlphat.ministore.server.app.parser.CommandParserImpl;
-import name.tlphat.ministore.server.app.SocketServer;
 import name.tlphat.ministore.server.controllers.DataController;
 import name.tlphat.ministore.server.controllers.impl.DataControllerImpl;
 import name.tlphat.ministore.server.store.DataStore;
@@ -16,7 +16,6 @@ import java.io.IOException;
 public class Application {
 
     private static final int SERVER_PORT = 3078;
-    private static final String INTERNAL_ERROR_MESSAGE = "INTERNAL_ERROR";
 
     public static void main(String[] args) {
         log.info("Application is starting");
@@ -27,7 +26,7 @@ public class Application {
         final DataController dataController = new DataControllerImpl(dataStore);
         final CommandExecutorFactory commandExecutorFactory = new CommandExecutorFactory(dataController);
 
-        try (final SocketServer server = new SocketServer(commandParser, commandExecutorFactory, SERVER_PORT, INTERNAL_ERROR_MESSAGE)) {
+        try (final SocketServer server = new SocketServer(commandParser, commandExecutorFactory, SERVER_PORT)) {
             log.info("Server is ready to serve connections");
 
             //noinspection InfiniteLoopStatement

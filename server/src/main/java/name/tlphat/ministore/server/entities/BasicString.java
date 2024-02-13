@@ -1,4 +1,4 @@
-package name.tlphat.ministore.server.entities.string;
+package name.tlphat.ministore.server.entities;
 
 public class BasicString implements String {
 

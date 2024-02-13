@@ -17,4 +17,6 @@ public interface DataStore {
     boolean isStringExisted(String key);
 
     void removeList(String key);
+
+    String getListElementAtIndex(String key, int index);
 }

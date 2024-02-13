@@ -70,4 +70,15 @@ public class InMemoryStore implements DataStore {
     public void removeList(String key) {
         stringListData.remove(key);
     }
+
+    @Override
+    public String getListElementAtIndex(String key, int index) {
+        final List<String> list = stringListData.get(key);
+
+        if (list == null) {
+            throw new IllegalArgumentException();
+        }
+
+        return list.get(index);
+    }
 }

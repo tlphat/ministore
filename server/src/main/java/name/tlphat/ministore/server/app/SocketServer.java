@@ -2,6 +2,7 @@ package name.tlphat.ministore.server.app;
 
 import lombok.extern.slf4j.Slf4j;
 import name.tlphat.ministore.server.app.dto.CommandType;
+import name.tlphat.ministore.server.app.dto.Error;
 import name.tlphat.ministore.server.app.dto.Tokens;
 import name.tlphat.ministore.server.app.executor.CommandExecutor;
 import name.tlphat.ministore.server.app.executor.CommandExecutorFactory;
@@ -24,19 +25,16 @@ public class SocketServer implements Server, AutoCloseable {
     private final CommandExecutorFactory commandExecutorFactory;
 
     private final ServerSocket serverSocket;
-    private final String internalErrorMessage;
 
     public SocketServer(
         CommandParser commandParser,
         CommandExecutorFactory commandExecutorFactory,
-        int port,
-        String internalErrorMessage
+        int port
     ) throws IOException {
 
         this.commandParser = commandParser;
         this.commandExecutorFactory = commandExecutorFactory;
         serverSocket = new ServerSocket(port);
-        this.internalErrorMessage = internalErrorMessage;
     }
 
     private boolean receivedExitCommand = false;
@@ -63,7 +61,7 @@ public class SocketServer implements Server, AutoCloseable {
                 } catch (Exception ex) {
                     log.error("Error executing command {}", command, ex);
 
-                    sendResponse(socket, internalErrorMessage);
+                    sendResponse(socket, Error.INTERNAL_ERROR.toString());
                 }
             }
 
