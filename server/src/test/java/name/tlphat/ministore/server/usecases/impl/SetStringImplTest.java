@@ -8,60 +8,64 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SetStringImplTest {
 
-    private static class StubSetStringDataAccess implements SetStringDataAccess {
-
-        private String value;
-
-        @Override
-        public void set(String key, String value) {
-            this.value = value;
-        }
-    }
-
-    private static class StubSetStringView implements  SetStringView {
-
-        @Override
-        public String prepareSuccessfulView() {
-            return "successful";
-        }
-
-        @Override
-        public String prepareErrorView(SetStringError error) {
-            return "error";
-        }
-    }
-
-    private StubSetStringDataAccess stubDataAccess;
     private SetStringUseCase useCase;
+
+    private DataAccessStub dataAccess;
 
     @BeforeEach
     void setup() {
-        stubDataAccess = new StubSetStringDataAccess();
-        final SetStringView stubView = new StubSetStringView();
-        useCase = new SetStringImpl(stubDataAccess, stubView, 6);
+        dataAccess = new DataAccessStub();
+        final SetStringView view = new ViewStub();
+        useCase = new SetStringImpl(dataAccess, view, 6);
     }
 
     @Test
     void setStringSuccessfully() {
-        final String expected = "successful";
+        assertEquals("OK", useCase.set("key", "value"));
+    }
 
-        final String actual = useCase.set("key", "value");
-
-        assertEquals(expected, actual);
-        assertEquals("value", stubDataAccess.value);
+    @Test
+    void setStringActuallyStoreNewString() {
+        useCase.set("key", "value");
+        assertTrue(dataAccess.updated);
     }
 
     @Test
     void setStringExceedsSizeLimit() {
-        final String expected = "error";
+        assertEquals("VALUE_SIZE_TOO_LARGE", useCase.set("key", "valueee"));
+    }
 
-        final String actual = useCase.set("key", "valueee");
+    @Test
+    void setStringExceedsSizeLimitDoesNotStore() {
+        useCase.set("key", "valueee");
+        assertFalse(dataAccess.updated);
+    }
 
-        assertEquals(expected, actual);
-        assertNull(stubDataAccess.value);
+    private static class DataAccessStub implements SetStringDataAccess {
+
+        private boolean updated;
+
+        @Override
+        public void set(String key, String value) {
+            updated = true;
+        }
+    }
+
+    private static class ViewStub implements  SetStringView {
+
+        @Override
+        public String prepareSuccessfulView() {
+            return "OK";
+        }
+
+        @Override
+        public String prepareErrorView(SetStringError error) {
+            return "VALUE_SIZE_TOO_LARGE";
+        }
     }
 }

@@ -1,6 +1,5 @@
 package name.tlphat.ministore.server.store.impl;
 
-import lombok.extern.slf4j.Slf4j;
 import name.tlphat.ministore.server.store.DataStore;
 
 import java.util.ArrayList;
@@ -8,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Slf4j
 public class InMemoryStore implements DataStore {
 
     private final Map<String, String> stringData;
@@ -20,31 +18,20 @@ public class InMemoryStore implements DataStore {
     }
 
     @Override
-    public String getValue(String key) {
+    public String getStringValue(String key) {
         return stringData.get(key);
     }
 
     @Override
-    public boolean setString(String key, String value) {
-        try {
-            stringData.put(key, value);
-            return true;
-        } catch (Exception ex) {
-            return false;
-        }
+    public void setString(String key, String value) {
+        stringData.put(key, value);
     }
 
     @Override
-    public boolean appendToList(String key, String value) {
-        try {
-            final List<String> data = stringListData.getOrDefault(key, new ArrayList<>());
-            data.add(value);
-            stringListData.put(key, data);
-            return true;
-        } catch (Exception ex) {
-            log.error("Error appending to list of key {}, value {}", key, value, ex);
-            return false;
-        }
+    public void appendToList(String key, String value) {
+        final List<String> data = stringListData.getOrDefault(key, new ArrayList<>());
+        data.add(value);
+        stringListData.put(key, data);
     }
 
     @Override

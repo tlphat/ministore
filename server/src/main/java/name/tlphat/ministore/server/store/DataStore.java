@@ -2,11 +2,11 @@ package name.tlphat.ministore.server.store;
 
 public interface DataStore {
 
-    String getValue(String key);
+    String getStringValue(String key);
 
-    boolean setString(String key, String value);
+    void setString(String key, String value);
 
-    boolean appendToList(String key, String value);
+    void appendToList(String key, String value);
 
     boolean isListExisted(String key);
 

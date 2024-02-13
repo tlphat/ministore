@@ -31,12 +31,8 @@ public class RightPushListImpl implements RightPushListUseCase {
             return view.prepareFailedView(RightPushStringError.VALUE_SIZE_TOO_LARGE);
         }
 
-        // Append to list
-        try {
-            dataAccess.appendRightToList(key, value);
-            return view.prepareSuccessfulView();
-        } catch (Exception ex) {
-            return view.prepareFailedView(RightPushStringError.INTERNAL_SERVER_ERROR);
-        }
+        dataAccess.appendRightToList(key, value);
+
+        return view.prepareSuccessfulView();
     }
 }

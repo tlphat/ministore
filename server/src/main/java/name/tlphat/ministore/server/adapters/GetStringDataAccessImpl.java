@@ -13,7 +13,7 @@ public class GetStringDataAccessImpl implements GetStringDataAccess {
 
     @Override
     public String get(String key) {
-        return dataStore.getValue(key);
+        return dataStore.getStringValue(key);
     }
 
     @Override

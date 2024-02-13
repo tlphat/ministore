@@ -9,17 +9,17 @@ import name.tlphat.ministore.server.usecases.ports.SetStringView;
 
 public class SetStringImpl implements SetStringUseCase {
 
-    private final SetStringDataAccess setStringDataAccess;
-    private final SetStringView setStringView;
+    private final SetStringDataAccess dataAccess;
+    private final SetStringView view;
     private final int maxNumberOfCharacters;
 
     public SetStringImpl(
-        SetStringDataAccess setStringDataAccess,
-        SetStringView setStringView,
+        SetStringDataAccess dataAccess,
+        SetStringView view,
         int maxNumberOfCharacters
     ) {
-        this.setStringDataAccess = setStringDataAccess;
-        this.setStringView = setStringView;
+        this.dataAccess = dataAccess;
+        this.view = view;
         this.maxNumberOfCharacters = maxNumberOfCharacters;
     }
 
@@ -27,10 +27,11 @@ public class SetStringImpl implements SetStringUseCase {
     public java.lang.String set(java.lang.String key, java.lang.String value) {
         final String stringValue = new BasicString(value);
         if (stringValue.exceedsSizeLimit(maxNumberOfCharacters)) {
-            return setStringView.prepareErrorView(SetStringError.VALUE_SIZE_TOO_LARGE);
+            return view.prepareErrorView(SetStringError.VALUE_SIZE_TOO_LARGE);
         }
 
-        setStringDataAccess.set(key, value);
-        return setStringView.prepareSuccessfulView();
+        dataAccess.set(key, value);
+
+        return view.prepareSuccessfulView();
     }
 }
