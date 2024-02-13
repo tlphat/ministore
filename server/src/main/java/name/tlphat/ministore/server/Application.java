@@ -16,6 +16,7 @@ import java.io.IOException;
 public class Application {
 
     private static final int SERVER_PORT = 3078;
+    private static final String INTERNAL_ERROR_MESSAGE = "INTERNAL_ERROR";
 
     public static void main(String[] args) {
         log.info("Application is starting");
@@ -26,7 +27,7 @@ public class Application {
         final DataController dataController = new DataControllerImpl(dataStore);
         final CommandExecutorFactory commandExecutorFactory = new CommandExecutorFactory(dataController);
 
-        try (final SocketServer server = new SocketServer(commandParser, commandExecutorFactory, SERVER_PORT)) {
+        try (final SocketServer server = new SocketServer(commandParser, commandExecutorFactory, SERVER_PORT, INTERNAL_ERROR_MESSAGE)) {
             log.info("Server is ready to serve connections");
 
             //noinspection InfiniteLoopStatement

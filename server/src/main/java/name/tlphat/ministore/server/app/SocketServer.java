@@ -24,15 +24,19 @@ public class SocketServer implements Server, AutoCloseable {
     private final CommandExecutorFactory commandExecutorFactory;
 
     private final ServerSocket serverSocket;
+    private final String internalErrorMessage;
 
     public SocketServer(
         CommandParser commandParser,
         CommandExecutorFactory commandExecutorFactory,
-        int port
+        int port,
+        String internalErrorMessage
     ) throws IOException {
+
         this.commandParser = commandParser;
         this.commandExecutorFactory = commandExecutorFactory;
         serverSocket = new ServerSocket(port);
+        this.internalErrorMessage = internalErrorMessage;
     }
 
     private boolean receivedExitCommand = false;
@@ -51,10 +55,16 @@ public class SocketServer implements Server, AutoCloseable {
                 log.info("Token parsed: {}", tokens);
                 turnOnExitFlagUponReceiveExitCommand(tokens);
 
-                final String response = execute(tokens);
-                log.info("Response: {}", response);
+                try {
+                    final String response = execute(tokens);
+                    log.info("Response: {}", response);
 
-                sendResponse(socket, response);
+                    sendResponse(socket, response);
+                } catch (Exception ex) {
+                    log.error("Error executing command {}", command, ex);
+
+                    sendResponse(socket, internalErrorMessage);
+                }
             }
 
             log.info("Closing connection from remote address {}", remoteSocketAddress);
