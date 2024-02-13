@@ -21,7 +21,7 @@ public class RightPopListImpl implements RightPopListUseCase {
     @Override
     public String rightPop(String key) {
         if (!dataAccess.isKeyExisted(key)) {
-            return view.prepareFailedView(RightPopListError.KEY_NOT_EXISTED);
+            return view.prepareFailedView(RightPopListError.NOT_EXISTED);
         }
 
         if (dataAccess.isListEmpty(key)) {

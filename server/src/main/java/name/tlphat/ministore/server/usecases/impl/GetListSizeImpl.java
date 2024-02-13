@@ -21,7 +21,7 @@ public class GetListSizeImpl implements GetListSizeUseCase {
     @Override
     public String getSize(String key) {
         if (!dataAccess.isListExisted(key)) {
-            return view.prepareFailedView(GetListSizeError.LIST_NOT_EXISTED);
+            return view.prepareFailedView(GetListSizeError.NOT_EXISTED);
         }
 
         final int listSize = dataAccess.getListSize(key);

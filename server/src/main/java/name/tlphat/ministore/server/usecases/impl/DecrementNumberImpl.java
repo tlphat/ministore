@@ -21,7 +21,7 @@ public class DecrementNumberImpl implements DecrementNumberUseCase {
     @Override
     public String decrement(String key) {
         if (!dataAccess.isKeyExisted(key)) {
-            return view.prepareFailedView(DecrementNumberError.KEY_NOT_EXISTED);
+            return view.prepareFailedView(DecrementNumberError.NOT_EXISTED);
         }
 
         dataAccess.decrement(key);

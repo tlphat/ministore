@@ -37,7 +37,7 @@ class IncrementNumberImplTest {
 
     @Test
     void incrementNumberNotExistedReturnsError() {
-        assertEquals("KEY_NOT_EXISTED", useCase.increment("not_existed"));
+        assertEquals("NOT_EXISTED", useCase.increment("not_existed"));
     }
 
     @Test
@@ -70,7 +70,7 @@ class IncrementNumberImplTest {
 
         @Override
         public String prepareFailedView(IncrementNumberError error) {
-            return "KEY_NOT_EXISTED";
+            return "NOT_EXISTED";
         }
     }
 }

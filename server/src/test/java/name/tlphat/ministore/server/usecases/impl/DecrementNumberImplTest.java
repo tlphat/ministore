@@ -37,7 +37,7 @@ class DecrementNumberImplTest {
 
     @Test
     void decrementNumberNotExistedReturnsError() {
-        assertEquals("KEY_NOT_EXISTED", useCase.decrement("not_existed"));
+        assertEquals("NOT_EXISTED", useCase.decrement("not_existed"));
     }
 
     @Test
@@ -70,7 +70,7 @@ class DecrementNumberImplTest {
 
         @Override
         public String prepareFailedView(DecrementNumberError error) {
-            return "KEY_NOT_EXISTED";
+            return "NOT_EXISTED";
         }
     }
 }

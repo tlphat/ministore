@@ -28,7 +28,7 @@ class RightPopListImplTest {
     @ParameterizedTest
     @CsvSource({
         "key, value",
-        "not_existed, KEY_NOT_EXISTED",
+        "not_existed, NOT_EXISTED",
         "empty_list, LIST_ALREADY_EMPTY",
     })
     void rightPopValue(String key, String expected) {

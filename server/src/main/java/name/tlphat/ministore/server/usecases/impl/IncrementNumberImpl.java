@@ -21,7 +21,7 @@ public class IncrementNumberImpl implements IncrementNumberUseCase {
     @Override
     public String increment(String key) {
         if (!dataAccess.isKeyExisted(key)) {
-            return view.prepareFailedView(IncrementNumberError.KEY_NOT_EXISTED);
+            return view.prepareFailedView(IncrementNumberError.NOT_EXISTED);
         }
 
         dataAccess.increment(key);

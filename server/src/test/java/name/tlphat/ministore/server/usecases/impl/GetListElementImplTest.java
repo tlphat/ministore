@@ -24,7 +24,7 @@ class GetListElementImplTest {
     @ParameterizedTest
     @CsvSource({
         "key, 2, value",
-        "not_existed, 2, LIST_NOT_EXISTED",
+        "not_existed, 2, NOT_EXISTED",
         "key, -1, INDEX_OUT_OF_BOUND",
         "key, 10, INDEX_OUT_OF_BOUND",
     })

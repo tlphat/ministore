@@ -27,7 +27,7 @@ class GetListSizeImplTest {
 
     @Test
     void getSizeOfListNotExisted() {
-        assertEquals("LIST_NOT_EXISTED", useCase.getSize("not_existed"));
+        assertEquals("NOT_EXISTED", useCase.getSize("not_existed"));
     }
 
     private static class DataAccessStub implements GetListSizeDataAccess {
@@ -52,7 +52,7 @@ class GetListSizeImplTest {
 
         @Override
         public String prepareFailedView(GetListSizeError error) {
-            return "LIST_NOT_EXISTED";
+            return "NOT_EXISTED";
         }
     }
 }

@@ -25,7 +25,7 @@ public class GetListElementImpl implements GetListElementUseCase {
         }
 
         if (!dataAccess.isListExisted(key)) {
-            return view.prepareFailedView(GetListElementError.LIST_NOT_EXISTED);
+            return view.prepareFailedView(GetListElementError.NOT_EXISTED);
         }
 
         if (indexOutOfUpperBound(key, index)) {
