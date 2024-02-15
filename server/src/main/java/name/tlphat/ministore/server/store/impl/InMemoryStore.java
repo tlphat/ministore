@@ -1,7 +1,13 @@
 package name.tlphat.ministore.server.store.impl;
 
+import name.tlphat.ministore.server.store.Data;
 import name.tlphat.ministore.server.store.DataStore;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,8 +15,8 @@ import java.util.Map;
 
 public class InMemoryStore implements DataStore {
 
-    private final Map<String, String> stringData;
-    private final Map<String, List<String>> stringListData;
+    private Map<String, String> stringData;
+    private Map<String, List<String>> stringListData;
 
     public InMemoryStore() {
         stringData = new HashMap<>();
@@ -80,5 +86,33 @@ public class InMemoryStore implements DataStore {
         }
 
         return list.get(index);
+    }
+
+    @Override
+    public byte[] serializeData() {
+        try (
+            final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            final ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream)
+        ) {
+            final Data data = new Data(stringData, stringListData);
+            objectOutputStream.writeObject(data);
+            objectOutputStream.flush();
+
+            return byteArrayOutputStream.toByteArray();
+        } catch (IOException e) {
+            return new byte[]{};
+        }
+    }
+
+    @Override
+    public void deserializeFromData(byte[] data) {
+        try (final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(data);
+             final ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream)
+        ) {
+            final Data obj = (Data) objectInputStream.readObject();
+            stringData = obj.stringData();
+            stringListData = obj.stringListData();
+        } catch (IOException | ClassNotFoundException ignored) {
+        }
     }
 }

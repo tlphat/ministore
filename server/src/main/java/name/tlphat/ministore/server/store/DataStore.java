@@ -19,4 +19,8 @@ public interface DataStore {
     void removeList(String key);
 
     String getListElementAtIndex(String key, int index);
+
+    byte[] serializeData();
+
+    void deserializeFromData(byte[] data);
 }
