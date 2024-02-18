@@ -68,7 +68,7 @@ public class ApplicationRunner {
         if (result.status() == SnapshotLoaderStatus.OK) {
             log.info("Loaded snapshot from disk successfully");
         } else {
-            log.warn("Error loading snapshot from disk {}. Initiated server with empty data", result.message());
+            log.warn("Error loading snapshot from disk {}. Initiated server with empty data.", result.message());
         }
     }
 

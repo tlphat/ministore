@@ -23,6 +23,13 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
 }
 
+tasks.withType<Jar> {
+    manifest {
+        attributes["Main-Class"] = application.mainClass
+        attributes["Class-Path"] = configurations.runtimeClasspath.get().files.joinToString(" ")
+    }
+}
+
 tasks.test {
     useJUnitPlatform()
 }
