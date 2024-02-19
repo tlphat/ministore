@@ -37,13 +37,13 @@ public class SocketServer implements Server, AutoCloseable {
         serverSocket = new ServerSocket(port);
     }
 
-    private boolean receivedExitCommand = false;
-
     @Override
     public void handleConnection() throws IOException {
         try (final Socket socket = serverSocket.accept()) {
             final SocketAddress remoteSocketAddress = socket.getRemoteSocketAddress();
             log.info("Connection received, handling connection from remote address {}", remoteSocketAddress);
+
+            boolean receivedExitCommand = false;
 
             while (!receivedExitCommand) {
                 final String command = readCommand(socket);
@@ -51,7 +51,8 @@ public class SocketServer implements Server, AutoCloseable {
 
                 final Tokens tokens = commandParser.parse(command);
                 log.info("Token parsed: {}", tokens);
-                turnOnExitFlagUponReceiveExitCommand(tokens);
+
+                receivedExitCommand = (tokens.commandType() == CommandType.EXIT);
 
                 try {
                     final String response = execute(tokens);
@@ -73,12 +74,6 @@ public class SocketServer implements Server, AutoCloseable {
         final InputStream inputStream = socket.getInputStream();
         final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         return bufferedReader.readLine();
-    }
-
-    private void turnOnExitFlagUponReceiveExitCommand(Tokens tokens) {
-        if (tokens.commandType() == CommandType.EXIT) {
-            receivedExitCommand = true;
-        }
     }
 
     private String execute(Tokens tokens) {
