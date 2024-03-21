@@ -8,6 +8,7 @@ public enum CommandType {
     RPUSH,
     RPOP,
     EGET,
+    KEYS,
     EXIT,
     UNSUPPORTED,
 }

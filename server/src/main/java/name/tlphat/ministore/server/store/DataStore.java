@@ -1,5 +1,7 @@
 package name.tlphat.ministore.server.store;
 
+import java.util.List;
+
 public interface DataStore {
 
     String getStringValue(String key);
@@ -25,4 +27,8 @@ public interface DataStore {
     void deserializeFromData(byte[] data);
 
     void removeKey(String key);
+
+    List<String> getSingletonKeys();
+
+    List<String> getListKeys();
 }

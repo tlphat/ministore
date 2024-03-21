@@ -2,6 +2,8 @@ package name.tlphat.ministore.server.controllers.impl;
 
 import name.tlphat.ministore.server.adapters.DeleteStringDataAccessImpl;
 import name.tlphat.ministore.server.adapters.DeleteStringViewImpl;
+import name.tlphat.ministore.server.adapters.GetKeysDataAccessImpl;
+import name.tlphat.ministore.server.adapters.GetKeysViewImpl;
 import name.tlphat.ministore.server.adapters.GetListElementDataAccessImpl;
 import name.tlphat.ministore.server.adapters.GetListElementViewImpl;
 import name.tlphat.ministore.server.adapters.GetStringDataAccessImpl;
@@ -16,12 +18,14 @@ import name.tlphat.ministore.server.controllers.DataController;
 import name.tlphat.ministore.server.controllers.constants.GetListElementError;
 import name.tlphat.ministore.server.store.DataStore;
 import name.tlphat.ministore.server.usecases.DeleteStringUseCase;
+import name.tlphat.ministore.server.usecases.GetKeysUseCase;
 import name.tlphat.ministore.server.usecases.GetListElementUseCase;
 import name.tlphat.ministore.server.usecases.GetStringUseCase;
 import name.tlphat.ministore.server.usecases.RightPopListUseCase;
 import name.tlphat.ministore.server.usecases.RightPushListUseCase;
 import name.tlphat.ministore.server.usecases.SetStringUseCase;
 import name.tlphat.ministore.server.usecases.impl.DeleteStringImpl;
+import name.tlphat.ministore.server.usecases.impl.GetKeysImpl;
 import name.tlphat.ministore.server.usecases.impl.GetListElementImpl;
 import name.tlphat.ministore.server.usecases.impl.GetStringImpl;
 import name.tlphat.ministore.server.usecases.impl.RightPopListImpl;
@@ -29,6 +33,8 @@ import name.tlphat.ministore.server.usecases.impl.RightPushListImpl;
 import name.tlphat.ministore.server.usecases.impl.SetStringImpl;
 import name.tlphat.ministore.server.usecases.ports.DeleteStringDataAccess;
 import name.tlphat.ministore.server.usecases.ports.DeleteStringView;
+import name.tlphat.ministore.server.usecases.ports.GetKeysDataAccess;
+import name.tlphat.ministore.server.usecases.ports.GetKeysView;
 import name.tlphat.ministore.server.usecases.ports.GetListElementDataAccess;
 import name.tlphat.ministore.server.usecases.ports.GetListElementView;
 import name.tlphat.ministore.server.usecases.ports.GetStringDataAccess;
@@ -104,5 +110,13 @@ public class DataControllerImpl implements DataController {
         } catch (NumberFormatException ex) {
             return GetListElementError.INVALID_INDEX.toString();
         }
+    }
+
+    @Override
+    public String getKeys() {
+        final GetKeysDataAccess dataAccess = new GetKeysDataAccessImpl(dataStore);
+        final GetKeysView view = new GetKeysViewImpl();
+        final GetKeysUseCase useCase = new GetKeysImpl(dataAccess, view);
+        return useCase.getKeys();
     }
 }

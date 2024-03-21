@@ -4,6 +4,7 @@ import name.tlphat.ministore.server.app.dto.CommandType;
 import name.tlphat.ministore.server.app.executor.impl.DeleteCommandExecutorImpl;
 import name.tlphat.ministore.server.app.executor.impl.ExitCommandExecutorImpl;
 import name.tlphat.ministore.server.app.executor.impl.GetCommandExecutorImpl;
+import name.tlphat.ministore.server.app.executor.impl.GetKeysExecutorImpl;
 import name.tlphat.ministore.server.app.executor.impl.GetListElementExecutorImpl;
 import name.tlphat.ministore.server.app.executor.impl.RightPopCommandExecutorImpl;
 import name.tlphat.ministore.server.app.executor.impl.RightPushCommandExecutorImpl;
@@ -27,6 +28,7 @@ public class CommandExecutorFactory {
             case RPUSH -> new RightPushCommandExecutorImpl(dataController);
             case RPOP -> new RightPopCommandExecutorImpl(dataController);
             case EGET -> new GetListElementExecutorImpl(dataController);
+            case KEYS -> new GetKeysExecutorImpl(dataController);
             case EXIT -> new ExitCommandExecutorImpl();
             default -> new UnsupportedCommandExecutorImpl();
         };

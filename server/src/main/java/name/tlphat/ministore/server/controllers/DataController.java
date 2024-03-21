@@ -13,4 +13,6 @@ public interface DataController {
     String rightPopStringList(String key);
 
     String getListElement(String key, String indexInString);
+
+    String getKeys();
 }

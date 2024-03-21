@@ -124,4 +124,14 @@ public class InMemoryStore implements DataStore {
 
         stringData.remove(key);
     }
+
+    @Override
+    public List<String> getSingletonKeys() {
+        return stringData.keySet().stream().toList();
+    }
+
+    @Override
+    public List<String> getListKeys() {
+        return stringListData.keySet().stream().toList();
+    }
 }
