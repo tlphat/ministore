@@ -4,6 +4,7 @@ public enum CommandType {
 
     GET,
     SET,
+    DEL,
     RPUSH,
     RPOP,
     EGET,

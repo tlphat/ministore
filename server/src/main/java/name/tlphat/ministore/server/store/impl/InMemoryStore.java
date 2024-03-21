@@ -115,4 +115,13 @@ public class InMemoryStore implements DataStore {
         } catch (IOException | ClassNotFoundException ignored) {
         }
     }
+
+    @Override
+    public void removeKey(String key) {
+        if (!stringData.containsKey(key)) {
+            throw new IllegalArgumentException();
+        }
+
+        stringData.remove(key);
+    }
 }

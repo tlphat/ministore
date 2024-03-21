@@ -23,4 +23,6 @@ public interface DataStore {
     byte[] serializeData();
 
     void deserializeFromData(byte[] data);
+
+    void removeKey(String key);
 }

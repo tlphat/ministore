@@ -1,5 +1,7 @@
 package name.tlphat.ministore.server.controllers.impl;
 
+import name.tlphat.ministore.server.adapters.DeleteStringDataAccessImpl;
+import name.tlphat.ministore.server.adapters.DeleteStringViewImpl;
 import name.tlphat.ministore.server.adapters.GetListElementDataAccessImpl;
 import name.tlphat.ministore.server.adapters.GetListElementViewImpl;
 import name.tlphat.ministore.server.adapters.GetStringDataAccessImpl;
@@ -13,16 +15,20 @@ import name.tlphat.ministore.server.adapters.SetStringViewImpl;
 import name.tlphat.ministore.server.controllers.DataController;
 import name.tlphat.ministore.server.controllers.constants.GetListElementError;
 import name.tlphat.ministore.server.store.DataStore;
+import name.tlphat.ministore.server.usecases.DeleteStringUseCase;
 import name.tlphat.ministore.server.usecases.GetListElementUseCase;
 import name.tlphat.ministore.server.usecases.GetStringUseCase;
 import name.tlphat.ministore.server.usecases.RightPopListUseCase;
 import name.tlphat.ministore.server.usecases.RightPushListUseCase;
 import name.tlphat.ministore.server.usecases.SetStringUseCase;
+import name.tlphat.ministore.server.usecases.impl.DeleteStringImpl;
 import name.tlphat.ministore.server.usecases.impl.GetListElementImpl;
 import name.tlphat.ministore.server.usecases.impl.GetStringImpl;
 import name.tlphat.ministore.server.usecases.impl.RightPopListImpl;
 import name.tlphat.ministore.server.usecases.impl.RightPushListImpl;
 import name.tlphat.ministore.server.usecases.impl.SetStringImpl;
+import name.tlphat.ministore.server.usecases.ports.DeleteStringDataAccess;
+import name.tlphat.ministore.server.usecases.ports.DeleteStringView;
 import name.tlphat.ministore.server.usecases.ports.GetListElementDataAccess;
 import name.tlphat.ministore.server.usecases.ports.GetListElementView;
 import name.tlphat.ministore.server.usecases.ports.GetStringDataAccess;
@@ -55,6 +61,14 @@ public class DataControllerImpl implements DataController {
         final SetStringView view = new SetStringViewImpl();
         final SetStringUseCase useCase = new SetStringImpl(dataAccess, view, DataConfig.MAX_LENGTH_STRING_VALUE);
         return useCase.set(key, value);
+    }
+
+    @Override
+    public String deleteString(String key) {
+        final DeleteStringDataAccess dataAccess = new DeleteStringDataAccessImpl(dataStore);
+        final DeleteStringView view = new DeleteStringViewImpl();
+        final DeleteStringUseCase useCase = new DeleteStringImpl(dataAccess, view);
+        return useCase.delete(key);
     }
 
     @Override
