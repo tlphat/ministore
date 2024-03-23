@@ -81,10 +81,13 @@ public class SocketServer implements Server, AutoCloseable {
         return commandExecutor.execute(tokens);
     }
 
+    private static final String TERMINATED_SPACE = " ";
+
     private static void sendResponse(Socket socket, String response) throws IOException {
         final OutputStream outputStream = socket.getOutputStream();
         final PrintWriter printWriter = new PrintWriter(outputStream);
-        printWriter.println(response);
+        response.lines().forEach(printWriter::println);
+        printWriter.println(TERMINATED_SPACE);
         printWriter.flush();
     }
 
