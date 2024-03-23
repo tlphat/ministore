@@ -19,9 +19,11 @@ public class CommandParserImpl implements CommandParser {
         "exit", CommandType.EXIT
     );
 
+    private static final String REGEX_SPACES = " +";
+
     @Override
     public Tokens parse(String command) {
-        final String[] words = command.split(" ");
+        final String[] words = command.split(REGEX_SPACES);
         final CommandType commandType = COMMAND_MAP.getOrDefault(words[0], CommandType.UNSUPPORTED);
         final List<String> arguments = java.util.Arrays.stream(words, 1, words.length).toList();
         return new Tokens(commandType, arguments);
