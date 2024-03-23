@@ -38,7 +38,10 @@ public class Client {
 
                 // Read and display the response from the server
                 String response = serverReader.readLine();
-                System.out.println(response);
+                while (!" ". equals(response)) {
+                    System.out.println(response);
+                    response = serverReader.readLine();
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
