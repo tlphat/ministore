@@ -9,9 +9,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class InMemoryStore implements DataStore {
 
@@ -19,8 +19,8 @@ public class InMemoryStore implements DataStore {
     private Map<String, List<String>> stringListData;
 
     public InMemoryStore() {
-        stringData = new HashMap<>();
-        stringListData = new HashMap<>();
+        stringData = new ConcurrentHashMap<>();
+        stringListData = new ConcurrentHashMap<>();
     }
 
     @Override
