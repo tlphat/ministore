@@ -23,6 +23,11 @@ public class CommandParserImpl implements CommandParser {
 
     @Override
     public Tokens parse(String command) {
+        // On CLI abrupt termination, it sends a null command to the server
+        if (command == null) {
+            return new Tokens(CommandType.EXIT, List.of());
+        }
+
         final String[] words = command.split(REGEX_SPACES);
         final CommandType commandType = COMMAND_MAP.getOrDefault(words[0], CommandType.UNSUPPORTED);
         final List<String> arguments = java.util.Arrays.stream(words, 1, words.length).toList();
