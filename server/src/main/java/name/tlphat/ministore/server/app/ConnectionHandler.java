@@ -1,5 +1,6 @@
 package name.tlphat.ministore.server.app;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import name.tlphat.ministore.server.app.dto.CommandType;
 import name.tlphat.ministore.server.app.dto.Error;
@@ -14,35 +15,29 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketAddress;
 
 @Slf4j
-public class SocketServer implements Server, AutoCloseable {
+@RequiredArgsConstructor
+public class ConnectionHandler extends Thread {
 
+    private final Socket socket;
     private final CommandParser commandParser;
     private final CommandExecutorFactory commandExecutorFactory;
 
-    private final ServerSocket serverSocket;
+    @Override
+    public void run() {
+        final SocketAddress remoteSocketAddress = socket.getRemoteSocketAddress();
+        log.info("Connection received, handling connection from remote address {}", remoteSocketAddress);
 
-    public SocketServer(
-        CommandParser commandParser,
-        CommandExecutorFactory commandExecutorFactory,
-        int port
-    ) throws IOException {
+        readAndExecuteCommand(remoteSocketAddress);
 
-        this.commandParser = commandParser;
-        this.commandExecutorFactory = commandExecutorFactory;
-        serverSocket = new ServerSocket(port);
+        closeConnection(remoteSocketAddress);
     }
 
-    @Override
-    public void handleConnection() throws IOException {
-        try (final Socket socket = serverSocket.accept()) {
-            final SocketAddress remoteSocketAddress = socket.getRemoteSocketAddress();
-            log.info("Connection received, handling connection from remote address {}", remoteSocketAddress);
-
+    private void readAndExecuteCommand(SocketAddress remoteSocketAddress) {
+        try {
             boolean receivedExitCommand = false;
 
             while (!receivedExitCommand) {
@@ -54,19 +49,19 @@ public class SocketServer implements Server, AutoCloseable {
 
                 receivedExitCommand = (tokens.commandType() == CommandType.EXIT);
 
-                try {
-                    final String response = execute(tokens);
-                    log.info("Response: {}", response);
-
-                    sendResponse(socket, response);
-                } catch (Exception ex) {
-                    log.error("Error executing command {}", command, ex);
-
-                    sendResponse(socket, Error.INTERNAL_ERROR.toString());
-                }
+                executeCommand(socket, command, tokens);
             }
+        } catch (IOException e) {
+            log.error("Error while handling connection from remote address {}", remoteSocketAddress, e);
+        }
+    }
 
-            log.info("Closing connection from remote address {}", remoteSocketAddress);
+    private void closeConnection(SocketAddress remoteSocketAddress) {
+        log.info("Closing connection from remote address {}", remoteSocketAddress);
+        try {
+            socket.close();
+        } catch (IOException e) {
+            log.error("Error while closing the connection from remote address {}", remoteSocketAddress, e);
         }
     }
 
@@ -76,9 +71,19 @@ public class SocketServer implements Server, AutoCloseable {
         return bufferedReader.readLine();
     }
 
-    private String execute(Tokens tokens) {
-        final CommandExecutor commandExecutor = commandExecutorFactory.getCommandExecutor(tokens.commandType());
-        return commandExecutor.execute(tokens);
+    private void executeCommand(Socket socket, String command, Tokens tokens) throws IOException {
+        try {
+            final CommandExecutor commandExecutor = commandExecutorFactory.getCommandExecutor(tokens.commandType());
+            final String response = commandExecutor.execute(tokens);
+
+            log.info("Response: {}", response);
+
+            sendResponse(socket, response);
+        } catch (Exception ex) {
+            log.error("Error executing command {}", command, ex);
+
+            sendResponse(socket, Error.INTERNAL_ERROR.toString());
+        }
     }
 
     private static final String TERMINATED_SPACE = " ";
@@ -89,10 +94,5 @@ public class SocketServer implements Server, AutoCloseable {
         response.lines().forEach(printWriter::println);
         printWriter.println(TERMINATED_SPACE);
         printWriter.flush();
-    }
-
-    @Override
-    public void close() throws IOException {
-        serverSocket.close();
     }
 }
