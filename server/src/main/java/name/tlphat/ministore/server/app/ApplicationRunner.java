@@ -1,7 +1,8 @@
-package name.tlphat.ministore.server;
+package name.tlphat.ministore.server.app;
 
 import lombok.extern.slf4j.Slf4j;
-import name.tlphat.ministore.server.app.Server;
+import name.tlphat.ministore.server.app.dto.ProgramArguments;
+import name.tlphat.ministore.server.app.server.Server;
 import name.tlphat.ministore.server.controllers.SnapshotController;
 import name.tlphat.ministore.server.controllers.impl.SnapshotControllerImpl;
 import name.tlphat.ministore.server.persistence.dto.SnapshotLoaderResponse;
@@ -20,14 +21,25 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class ApplicationRunner {
 
-    private static final int SERVER_PORT = 3078;
-    private static final String SNAPSHOT_PATH = "./snapshot.txt";
-    private static final long SNAPSHOT_WRITE_DURATION_SECOND = 10;
+    private static final Integer DEFAULT_SERVER_PORT = 3078;
+    private static final String DEFAULT_SNAPSHOT_PATH = "./snapshot.txt";
+    private static final long DEFAULT_SNAPSHOT_WRITE_DURATION_SECOND = 10;
 
     private final DataStore dataStore;
     private final SnapshotController snapshotController;
 
-    public ApplicationRunner() {
+    private final int serverPort;
+    private final String snapshotPath;
+    private final long snapshotWriteDurationSecond;
+
+    public ApplicationRunner(ProgramArguments programArguments) {
+        serverPort = programArguments.serverPort()
+                                     .orElse(DEFAULT_SERVER_PORT);
+        snapshotPath = programArguments.snapshotPath()
+                                       .orElse(DEFAULT_SNAPSHOT_PATH);
+        snapshotWriteDurationSecond = programArguments.snapshotWriteDurationSecond()
+                                                      .orElse(DEFAULT_SNAPSHOT_WRITE_DURATION_SECOND);
+
         dataStore = new InMemoryStore();
         snapshotController = new SnapshotControllerImpl(dataStore);
     }
@@ -38,7 +50,7 @@ public class ApplicationRunner {
         loadingSnapshot();
         scheduleWritingSnapshot();
 
-        try (final ServerSocket serverSocket = new ServerSocket(SERVER_PORT)) {
+        try (final ServerSocket serverSocket = new ServerSocket(serverPort)) {
             final Server server = new Server(dataStore, serverSocket);
             log.info("Server is ready to serve connections");
 
@@ -55,7 +67,7 @@ public class ApplicationRunner {
     }
 
     private void loadingSnapshot() {
-        final SnapshotLoaderResponse result = snapshotController.load(SNAPSHOT_PATH);
+        final SnapshotLoaderResponse result = snapshotController.load(snapshotPath);
 
         if (result.status() == SnapshotLoaderStatus.OK) {
             log.info("Loaded snapshot from disk successfully");
@@ -68,8 +80,8 @@ public class ApplicationRunner {
         final ScheduledExecutorService writerExecutor = new ScheduledThreadPoolExecutor(1);
         writerExecutor.scheduleAtFixedRate(
             new SnapshotWritingRunnable(),
-            SNAPSHOT_WRITE_DURATION_SECOND,
-            SNAPSHOT_WRITE_DURATION_SECOND,
+            snapshotWriteDurationSecond,
+            snapshotWriteDurationSecond,
             TimeUnit.SECONDS
         );
     }
@@ -78,7 +90,7 @@ public class ApplicationRunner {
 
         @Override
         public void run() {
-            final SnapshotWriterResponse result = snapshotController.write(SNAPSHOT_PATH);
+            final SnapshotWriterResponse result = snapshotController.write(snapshotPath);
 
             if (result.status() == SnapshotWriterStatus.OK) {
                 log.info("Wrote snapshot to disk successfully");

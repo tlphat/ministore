@@ -1,13 +1,13 @@
-package name.tlphat.ministore.server.app;
+package name.tlphat.ministore.server.app.server;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import name.tlphat.ministore.server.app.dto.CommandType;
-import name.tlphat.ministore.server.app.dto.Error;
-import name.tlphat.ministore.server.app.dto.Tokens;
-import name.tlphat.ministore.server.app.executor.CommandExecutor;
-import name.tlphat.ministore.server.app.executor.CommandExecutorFactory;
-import name.tlphat.ministore.server.app.parser.CommandParser;
+import name.tlphat.ministore.server.app.server.dto.CommandType;
+import name.tlphat.ministore.server.app.server.dto.Error;
+import name.tlphat.ministore.server.app.server.dto.Tokens;
+import name.tlphat.ministore.server.app.server.executor.CommandExecutor;
+import name.tlphat.ministore.server.app.server.executor.CommandExecutorFactory;
+import name.tlphat.ministore.server.app.server.parser.CommandParser;
 
 import java.io.BufferedReader;
 import java.io.IOException;

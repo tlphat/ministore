@@ -1,7 +1,7 @@
-package name.tlphat.ministore.server.app.parser;
+package name.tlphat.ministore.server.app.server.parser;
 
-import name.tlphat.ministore.server.app.dto.CommandType;
-import name.tlphat.ministore.server.app.dto.Tokens;
+import name.tlphat.ministore.server.app.server.dto.CommandType;
+import name.tlphat.ministore.server.app.server.dto.Tokens;
 
 import java.util.List;
 import java.util.Map;

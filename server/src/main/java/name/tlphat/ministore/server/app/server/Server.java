@@ -1,9 +1,9 @@
-package name.tlphat.ministore.server.app;
+package name.tlphat.ministore.server.app.server;
 
 import lombok.extern.slf4j.Slf4j;
-import name.tlphat.ministore.server.app.executor.CommandExecutorFactory;
-import name.tlphat.ministore.server.app.parser.CommandParser;
-import name.tlphat.ministore.server.app.parser.CommandParserImpl;
+import name.tlphat.ministore.server.app.server.executor.CommandExecutorFactory;
+import name.tlphat.ministore.server.app.server.parser.CommandParser;
+import name.tlphat.ministore.server.app.server.parser.CommandParserImpl;
 import name.tlphat.ministore.server.controllers.DataController;
 import name.tlphat.ministore.server.controllers.impl.DataControllerImpl;
 import name.tlphat.ministore.server.store.DataStore;

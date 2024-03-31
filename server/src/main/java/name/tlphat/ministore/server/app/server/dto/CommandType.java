@@ -1,4 +1,4 @@
-package name.tlphat.ministore.server.app.dto;
+package name.tlphat.ministore.server.app.server.dto;
 
 public enum CommandType {
 
