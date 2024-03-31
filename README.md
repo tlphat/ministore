@@ -24,20 +24,25 @@ Clone the project
   git clone git@github.com:tlphat/ministore.git
 ```
 
-Go to the project directory
-
-```bash
-  cd ministore/server
-```
-
 Build the server
 
 ```bash
-  ./gradlew build
+  ./gradlew server:build
 ```
 
 Start the server
 
 ```bash
-  java -jar build/libs/server.jar
+  java -jar server/build/libs/server.jar
+```
+
+Build the CLI
+```bash
+  ./gradlew cli:build
+```
+
+Start the CLI
+
+```bash
+  java -jar cli/build/libs/cli.jar
 ```
