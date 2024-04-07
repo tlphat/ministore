@@ -45,7 +45,7 @@ public class ApplicationRunner {
     }
 
     public void run() {
-        log.info("Application is starting");
+        log.info("Application is starting on port {}", serverPort);
 
         loadingSnapshot();
         scheduleWritingSnapshot();
