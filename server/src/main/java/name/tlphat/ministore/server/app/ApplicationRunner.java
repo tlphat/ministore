@@ -44,6 +44,12 @@ public class ApplicationRunner {
         snapshotController = new SnapshotControllerImpl(dataStore);
     }
 
+    private volatile boolean ready = false;
+
+    public boolean isReady() {
+        return ready;
+    }
+
     public void run() {
         log.info("Application is starting on port {}", serverPort);
 
@@ -53,6 +59,8 @@ public class ApplicationRunner {
         try (final ServerSocket serverSocket = new ServerSocket(serverPort)) {
             final Server server = new Server(dataStore, serverSocket);
             log.info("Server is ready to serve connections");
+
+            ready = true;
 
             //noinspection InfiniteLoopStatement
             while (true) {
