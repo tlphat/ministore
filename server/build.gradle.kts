@@ -1,6 +1,7 @@
 plugins {
     application
     idea
+    jacoco
 }
 
 group = "name.tlphat.ministore"
@@ -67,5 +68,31 @@ val integrationTestTask = tasks.register<Test>("integrationTest") {
 idea {
     module {
         testSources.from(integrationTest.java.srcDirs)
+    }
+}
+
+/**
+ * Configure test coverage report
+ */
+val jacocoTestReport by tasks.getting(JacocoReport::class) {
+    dependsOn(tasks.test, integrationTestTask)
+
+    reports {
+        html.required.set(true)
+        xml.required.set(true)
+    }
+
+    // Include coverage results from both unit tests and integration tests
+    executionData(tasks.test.get(), integrationTestTask.get())
+
+    afterEvaluate {
+        // Define patterns excluded from test coverage
+        classDirectories.setFrom(files(classDirectories.files.map { file ->
+            fileTree(file).apply {
+                exclude(
+                        "name/tlphat/ministore/server/Application**"
+                )
+            }
+        }))
     }
 }
