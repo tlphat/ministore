@@ -34,7 +34,7 @@ public class InMemoryStore implements DataStore {
     }
 
     @Override
-    public void appendToList(String key, String value) {
+    public synchronized void appendToList(String key, String value) {
         final List<String> data = stringListData.getOrDefault(key, new ArrayList<>());
         data.add(value);
         stringListData.put(key, data);
@@ -46,7 +46,7 @@ public class InMemoryStore implements DataStore {
     }
 
     @Override
-    public int getListSize(String key) {
+    public synchronized int getListSize(String key) {
         final List<String> list = stringListData.get(key);
 
         if (list == null) {
@@ -57,7 +57,7 @@ public class InMemoryStore implements DataStore {
     }
 
     @Override
-    public String getAndPopRightmostElement(String key) {
+    public synchronized String getAndPopRightmostElement(String key) {
         final List<String> list = stringListData.get(key);
 
         if (list == null || list.isEmpty()) {
@@ -78,7 +78,7 @@ public class InMemoryStore implements DataStore {
     }
 
     @Override
-    public String getListElementAtIndex(String key, int index) {
+    public synchronized String getListElementAtIndex(String key, int index) {
         final List<String> list = stringListData.get(key);
 
         if (list == null) {
@@ -117,7 +117,7 @@ public class InMemoryStore implements DataStore {
     }
 
     @Override
-    public void removeKey(String key) {
+    public synchronized void removeKey(String key) {
         if (!stringData.containsKey(key)) {
             throw new IllegalArgumentException();
         }
@@ -126,12 +126,12 @@ public class InMemoryStore implements DataStore {
     }
 
     @Override
-    public List<String> getSingletonKeys() {
+    public synchronized List<String> getSingletonKeys() {
         return stringData.keySet().stream().toList();
     }
 
     @Override
-    public List<String> getListKeys() {
+    public synchronized List<String> getListKeys() {
         return stringListData.keySet().stream().toList();
     }
 }

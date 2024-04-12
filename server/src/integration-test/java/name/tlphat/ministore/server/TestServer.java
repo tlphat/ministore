@@ -8,8 +8,8 @@ public class TestServer extends Thread {
 
     private final ApplicationRunner runner;
 
-    public TestServer() {
-        final String[] args = {"--port=56789", "--snapshot-path=./integration-test.txt"};
+    public TestServer(int port) {
+        final String[] args = {String.format("--port=%d", port), "--snapshot-path=./integration-test.txt"};
         final ArgumentParser argumentParser = new ArgumentParser();
         final ProgramArguments programArguments = argumentParser.parse(args);
         runner = new ApplicationRunner(programArguments);
