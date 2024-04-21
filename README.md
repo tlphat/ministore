@@ -10,9 +10,11 @@ A simple in-memory datastore for key-value storage and caching.
 
 ## Features
 
-- Store and retrieve key-value entries for STRING, LIST, and NUMBER.
+- Concurrent storing and retrieving mechanism for STRING and LIST entries.
 - Snapshotting (for persistence and data recovery).
+- Ministore server is able to serve 10,000 requests per second with 0 error rate (tested on a computer with 10 cores).
 
+For more details, refer to [Ministore Server Features](./server/doc/features.md) and [Concurrency Test](./server/doc/concurrency.md).
 
 ## Run Locally
 
