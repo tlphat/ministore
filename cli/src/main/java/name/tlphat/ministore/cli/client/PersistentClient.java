@@ -1,4 +1,4 @@
-package name.tlphat.ministore.cli;
+package name.tlphat.ministore.cli.client;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,12 +8,10 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class Client {
+public class PersistentClient implements Client {
 
-    public void execute() {
-        String serverAddress = "127.0.0.1"; // Replace with the server IP address
-        int serverPort = 3078; // Replace with the server port number
-
+    @Override
+    public void execute(String serverAddress, int serverPort) {
         try (Socket socket = new Socket(serverAddress, serverPort);
              InputStream inputStream = socket.getInputStream();
              OutputStream outputStream = socket.getOutputStream();
@@ -21,11 +19,11 @@ public class Client {
              PrintWriter serverWriter = new PrintWriter(outputStream, true);
              BufferedReader serverReader = new BufferedReader(new InputStreamReader(inputStream))
         ) {
-            System.out.printf(String.format("Connected to the server %s:%d%n", serverAddress, serverPort));
+            System.out.printf(String.format("Connected to the server %s:%d%n", serverAddress, serverPort)); // NOSONAR
 
             // Read messages from the console and send them to the server
             while (true) {
-                System.out.print("> ");
+                System.out.print("> "); // NOSONAR
                 String message = consoleReader.readLine();
 
                 // Send the message to the server
@@ -39,7 +37,7 @@ public class Client {
                 // Read and display the response from the server
                 String response = serverReader.readLine();
                 while (!" ". equals(response)) {
-                    System.out.println(response);
+                    System.out.println(response); // NOSONAR
                     response = serverReader.readLine();
                 }
             }
@@ -47,6 +45,6 @@ public class Client {
             e.printStackTrace();
         }
 
-        System.out.println("Connection closed.");
+        System.out.println("Connection closed."); // NOSONAR
     }
 }
