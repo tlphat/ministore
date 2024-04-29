@@ -1,6 +1,8 @@
 package name.tlphat.ministore.server.app.server;
 
 import lombok.extern.slf4j.Slf4j;
+import name.tlphat.ministore.server.app.server.connection.ConnectionHandler;
+import name.tlphat.ministore.server.app.server.connection.NonPersistentConnectionHandler;
 import name.tlphat.ministore.server.app.server.executor.CommandExecutorFactory;
 import name.tlphat.ministore.server.app.server.parser.CommandParser;
 import name.tlphat.ministore.server.app.server.parser.CommandParserImpl;
@@ -32,13 +34,14 @@ public class Server {
     public void handleNewConnection() {
         try {
             final Socket socket = serverSocket.accept();
-
-            final ConnectionHandler connectionHandler = new ConnectionHandler(
+            final ConnectionHandler connectionHandler = new NonPersistentConnectionHandler(
                 socket,
                 commandParser,
                 commandExecutorFactory
             );
-            connectionHandler.start();
+
+            final Thread connectionHandlingThread = new Thread(connectionHandler::handle);
+            connectionHandlingThread.start();
         } catch (IOException e) {
             log.error("Error while accepting new connection", e);
         }

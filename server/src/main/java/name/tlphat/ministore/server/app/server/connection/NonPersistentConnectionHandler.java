@@ -1,8 +1,8 @@
-package name.tlphat.ministore.server.app.server;
+package name.tlphat.ministore.server.app.server.connection;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import name.tlphat.ministore.server.app.server.dto.CommandType;
+import name.tlphat.ministore.server.app.server.connection.ConnectionHandler;
 import name.tlphat.ministore.server.app.server.dto.Error;
 import name.tlphat.ministore.server.app.server.dto.Tokens;
 import name.tlphat.ministore.server.app.server.executor.CommandExecutor;
@@ -20,14 +20,14 @@ import java.net.SocketAddress;
 
 @Slf4j
 @RequiredArgsConstructor
-public class ConnectionHandler extends Thread {
+public class NonPersistentConnectionHandler implements ConnectionHandler {
 
     private final Socket socket;
     private final CommandParser commandParser;
     private final CommandExecutorFactory commandExecutorFactory;
 
     @Override
-    public void run() {
+    public void handle() {
         final SocketAddress remoteSocketAddress = socket.getRemoteSocketAddress();
         log.info("Connection received, handling connection from remote address {}", remoteSocketAddress);
 
@@ -38,19 +38,13 @@ public class ConnectionHandler extends Thread {
 
     private void readAndExecuteCommand(SocketAddress remoteSocketAddress) {
         try {
-            boolean receivedExitCommand = false;
+            final String command = readCommand(socket);
+            log.info("Command received: {}", command);
 
-            while (!receivedExitCommand) {
-                final String command = readCommand(socket);
-                log.info("Command received: {}", command);
+            final Tokens tokens = commandParser.parse(command);
+            log.info("Token parsed: {}", tokens);
 
-                final Tokens tokens = commandParser.parse(command);
-                log.info("Token parsed: {}", tokens);
-
-                receivedExitCommand = (tokens.commandType() == CommandType.EXIT);
-
-                executeCommand(socket, command, tokens);
-            }
+            executeCommand(socket, command, tokens);
         } catch (IOException e) {
             log.error("Error while handling connection from remote address {}", remoteSocketAddress, e);
         }
