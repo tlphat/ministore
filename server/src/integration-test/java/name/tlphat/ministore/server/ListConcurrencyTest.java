@@ -18,11 +18,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ListConcurrencyTest {
 
+    private static NonPersistentTestClient client;
+
+    private static final String TEST_SERVER_ADDRESS = "127.0.0.1";
+    private static final int TEST_SERVER_PORT = 56788;
+
     @BeforeAll
     static void setup() {
-        final TestServer application = new TestServer(56788);
+        final TestServer application = new TestServer(TEST_SERVER_PORT);
         application.start();
         await().until(application::isReady);
+
+        client = new NonPersistentTestClient(TEST_SERVER_ADDRESS, TEST_SERVER_PORT);
     }
 
     @AfterAll
@@ -52,15 +59,11 @@ class ListConcurrencyTest {
             try {
                 actual.add(future.get());
             } catch (InterruptedException | ExecutionException e) {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException(e);
             }
         });
 
-        try (TestClient client = new TestClient()) {
-            final ServerWrapper serverWrapper = new ServerWrapper(client.getReader(), client.getWriter());
-            actual.add(serverWrapper.sendCommand("eget x 0"));
-            serverWrapper.sendCommand("exit");
-        }
+        actual.add(client.sendCommand("eget x 0"));
 
         assertEquals(expected, actual);
     }
@@ -69,12 +72,8 @@ class ListConcurrencyTest {
 
         @Override
         public Void call() throws IOException {
-            try (TestClient client = new TestClient()) {
-                final ServerWrapper serverWrapper = new ServerWrapper(client.getReader(), client.getWriter());
-                serverWrapper.sendCommand("rpush x 1");
-                serverWrapper.sendCommand("exit");
-                return null;
-            }
+            client.sendCommand("rpush x 1");
+            return null;
         }
     }
 
@@ -82,12 +81,7 @@ class ListConcurrencyTest {
 
         @Override
         public String call() throws IOException {
-            try (TestClient client = new TestClient()) {
-                final ServerWrapper serverWrapper = new ServerWrapper(client.getReader(), client.getWriter());
-                final String response = serverWrapper.sendCommand("rpop x");
-                serverWrapper.sendCommand("exit");
-                return response;
-            }
+            return client.sendCommand("rpop x 1");
         }
     }
 }
