@@ -4,5 +4,5 @@ import name.tlphat.ministore.server.app.server.dto.Tokens;
 
 public interface CommandParser {
 
-    Tokens parse(String command);
+  Tokens parse(String command);
 }

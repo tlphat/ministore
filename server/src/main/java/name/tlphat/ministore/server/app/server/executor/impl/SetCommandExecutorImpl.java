@@ -1,21 +1,21 @@
 package name.tlphat.ministore.server.app.server.executor.impl;
 
-import name.tlphat.ministore.server.app.server.executor.CommandExecutor;
 import name.tlphat.ministore.server.app.server.dto.Tokens;
+import name.tlphat.ministore.server.app.server.executor.CommandExecutor;
 import name.tlphat.ministore.server.controllers.DataController;
 
 public class SetCommandExecutorImpl implements CommandExecutor {
 
-    private final DataController dataController;
+  private final DataController dataController;
 
-    public SetCommandExecutorImpl(DataController dataController) {
-        this.dataController = dataController;
-    }
+  public SetCommandExecutorImpl(DataController dataController) {
+    this.dataController = dataController;
+  }
 
-    @Override
-    public String execute(Tokens tokens) {
-        final String key = tokens.arguments().get(0);
-        final String value = tokens.arguments().get(1);
-        return dataController.setStringValue(key, value);
-    }
+  @Override
+  public String execute(Tokens tokens) {
+    final String key = tokens.arguments().get(0);
+    final String value = tokens.arguments().get(1);
+    return dataController.setStringValue(key, value);
+  }
 }

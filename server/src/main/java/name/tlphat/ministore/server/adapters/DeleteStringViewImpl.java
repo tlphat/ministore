@@ -5,13 +5,13 @@ import name.tlphat.ministore.server.usecases.ports.DeleteStringView;
 
 public class DeleteStringViewImpl implements DeleteStringView {
 
-    @Override
-    public String prepareSuccessfulView() {
-        return "OK";
-    }
+  @Override
+  public String prepareSuccessfulView() {
+    return "OK";
+  }
 
-    @Override
-    public String prepareFailedView(DeleteStringError error) {
-        return error.toString();
-    }
+  @Override
+  public String prepareFailedView(DeleteStringError error) {
+    return error.toString();
+  }
 }

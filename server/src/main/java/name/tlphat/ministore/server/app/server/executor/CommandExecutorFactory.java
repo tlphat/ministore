@@ -14,23 +14,23 @@ import name.tlphat.ministore.server.controllers.DataController;
 
 public class CommandExecutorFactory {
 
-    private final DataController dataController;
+  private final DataController dataController;
 
-    public CommandExecutorFactory(DataController dataController) {
-        this.dataController = dataController;
-    }
+  public CommandExecutorFactory(DataController dataController) {
+    this.dataController = dataController;
+  }
 
-    public CommandExecutor getCommandExecutor(CommandType commandType) {
-        return switch (commandType) {
-            case GET -> new GetCommandExecutorImpl(dataController);
-            case SET -> new SetCommandExecutorImpl(dataController);
-            case DEL -> new DeleteCommandExecutorImpl(dataController);
-            case RPUSH -> new RightPushCommandExecutorImpl(dataController);
-            case RPOP -> new RightPopCommandExecutorImpl(dataController);
-            case EGET -> new GetListElementExecutorImpl(dataController);
-            case KEYS -> new GetKeysExecutorImpl(dataController);
-            case EXIT -> new ExitCommandExecutorImpl();
-            default -> new UnsupportedCommandExecutorImpl();
-        };
-    }
+  public CommandExecutor getCommandExecutor(CommandType commandType) {
+    return switch (commandType) {
+      case GET -> new GetCommandExecutorImpl(dataController);
+      case SET -> new SetCommandExecutorImpl(dataController);
+      case DEL -> new DeleteCommandExecutorImpl(dataController);
+      case RPUSH -> new RightPushCommandExecutorImpl(dataController);
+      case RPOP -> new RightPopCommandExecutorImpl(dataController);
+      case EGET -> new GetListElementExecutorImpl(dataController);
+      case KEYS -> new GetKeysExecutorImpl(dataController);
+      case EXIT -> new ExitCommandExecutorImpl();
+      default -> new UnsupportedCommandExecutorImpl();
+    };
+  }
 }

@@ -7,29 +7,26 @@ import name.tlphat.ministore.server.usecases.ports.RightPopListView;
 
 public class RightPopListImpl implements RightPopListUseCase {
 
-    private final RightPopListDataAccess dataAccess;
-    private final RightPopListView view;
+  private final RightPopListDataAccess dataAccess;
+  private final RightPopListView view;
 
-    public RightPopListImpl(
-        RightPopListDataAccess dataAccess,
-        RightPopListView view
-    ) {
-        this.dataAccess = dataAccess;
-        this.view = view;
+  public RightPopListImpl(RightPopListDataAccess dataAccess, RightPopListView view) {
+    this.dataAccess = dataAccess;
+    this.view = view;
+  }
+
+  @Override
+  public String rightPop(String key) {
+    if (!dataAccess.isKeyExisted(key)) {
+      return view.prepareFailedView(RightPopListError.NOT_EXISTED);
     }
 
-    @Override
-    public String rightPop(String key) {
-        if (!dataAccess.isKeyExisted(key)) {
-            return view.prepareFailedView(RightPopListError.NOT_EXISTED);
-        }
+    final String poppedElement = dataAccess.rightPop(key);
 
-        final String poppedElement = dataAccess.rightPop(key);
-
-        if (dataAccess.isListEmpty(key)) {
-            dataAccess.removeList(key);
-        }
-
-        return view.prepareSuccessfulView(poppedElement);
+    if (dataAccess.isListEmpty(key)) {
+      dataAccess.removeList(key);
     }
+
+    return view.prepareSuccessfulView(poppedElement);
+  }
 }

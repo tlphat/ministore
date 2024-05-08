@@ -5,19 +5,19 @@ import name.tlphat.ministore.server.usecases.ports.DeleteStringDataAccess;
 
 public class DeleteStringDataAccessImpl implements DeleteStringDataAccess {
 
-    private final DataStore dataStore;
+  private final DataStore dataStore;
 
-    public DeleteStringDataAccessImpl(DataStore dataStore) {
-        this.dataStore = dataStore;
-    }
+  public DeleteStringDataAccessImpl(DataStore dataStore) {
+    this.dataStore = dataStore;
+  }
 
-    @Override
-    public void removeKey(String key) {
-        dataStore.removeKey(key);
-    }
+  @Override
+  public void removeKey(String key) {
+    dataStore.removeKey(key);
+  }
 
-    @Override
-    public boolean keyNotExisted(String key) {
-        return !dataStore.isStringExisted(key);
-    }
+  @Override
+  public boolean keyNotExisted(String key) {
+    return !dataStore.isStringExisted(key);
+  }
 }

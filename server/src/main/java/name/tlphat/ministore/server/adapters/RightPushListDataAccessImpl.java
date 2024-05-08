@@ -5,14 +5,14 @@ import name.tlphat.ministore.server.usecases.ports.RightPushListDataAccess;
 
 public class RightPushListDataAccessImpl implements RightPushListDataAccess {
 
-    private final DataStore dataStore;
+  private final DataStore dataStore;
 
-    public RightPushListDataAccessImpl(DataStore dataStore) {
-        this.dataStore = dataStore;
-    }
+  public RightPushListDataAccessImpl(DataStore dataStore) {
+    this.dataStore = dataStore;
+  }
 
-    @Override
-    public void appendRightToList(String key, String value) {
-        dataStore.appendToList(key, value);
-    }
+  @Override
+  public void appendRightToList(String key, String value) {
+    dataStore.appendToList(key, value);
+  }
 }

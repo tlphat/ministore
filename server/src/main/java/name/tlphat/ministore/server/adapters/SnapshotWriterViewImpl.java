@@ -6,8 +6,8 @@ import name.tlphat.ministore.server.persistence.ports.SnapshotWriterView;
 
 public class SnapshotWriterViewImpl implements SnapshotWriterView {
 
-    @Override
-    public SnapshotWriterResponse prepareSuccessfulView() {
-        return new SnapshotWriterResponse(SnapshotWriterStatus.OK, null);
-    }
+  @Override
+  public SnapshotWriterResponse prepareSuccessfulView() {
+    return new SnapshotWriterResponse(SnapshotWriterStatus.OK, null);
+  }
 }

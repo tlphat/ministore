@@ -7,25 +7,22 @@ import name.tlphat.ministore.server.usecases.ports.GetStringView;
 
 public class GetStringImpl implements GetStringUseCase {
 
-    private final GetStringDataAccess dataAccess;
-    private final GetStringView view;
+  private final GetStringDataAccess dataAccess;
+  private final GetStringView view;
 
-    public GetStringImpl(
-        GetStringDataAccess dataAccess,
-        GetStringView view
-    ) {
-        this.dataAccess = dataAccess;
-        this.view = view;
+  public GetStringImpl(GetStringDataAccess dataAccess, GetStringView view) {
+    this.dataAccess = dataAccess;
+    this.view = view;
+  }
+
+  @Override
+  public String get(String key) {
+    if (!dataAccess.isKeyExisted(key)) {
+      return view.prepareFailedView(GetStringError.NOT_EXISTED);
     }
 
-    @Override
-    public String get(String key) {
-        if (!dataAccess.isKeyExisted(key)) {
-            return view.prepareFailedView(GetStringError.NOT_EXISTED);
-        }
+    final String response = dataAccess.get(key);
 
-        final String response = dataAccess.get(key);
-
-        return view.prepareSuccessfulView(response);
-    }
+    return view.prepareSuccessfulView(response);
+  }
 }

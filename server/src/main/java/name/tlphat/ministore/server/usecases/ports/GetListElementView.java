@@ -4,7 +4,7 @@ import name.tlphat.ministore.server.usecases.constants.GetListElementError;
 
 public interface GetListElementView {
 
-    String prepareSuccessfulView(String data);
+  String prepareSuccessfulView(String data);
 
-    String prepareFailedView(GetListElementError error);
+  String prepareFailedView(GetListElementError error);
 }

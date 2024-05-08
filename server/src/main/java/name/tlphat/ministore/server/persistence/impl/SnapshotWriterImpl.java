@@ -7,20 +7,17 @@ import name.tlphat.ministore.server.persistence.ports.SnapshotWriterView;
 
 public class SnapshotWriterImpl implements SnapshotWriter {
 
-    private final SnapshotWriterDataAccess dataAccess;
-    private final SnapshotWriterView view;
+  private final SnapshotWriterDataAccess dataAccess;
+  private final SnapshotWriterView view;
 
-    public SnapshotWriterImpl(
-        SnapshotWriterDataAccess dataAccess,
-        SnapshotWriterView view
-    ) {
-        this.dataAccess = dataAccess;
-        this.view = view;
-    }
+  public SnapshotWriterImpl(SnapshotWriterDataAccess dataAccess, SnapshotWriterView view) {
+    this.dataAccess = dataAccess;
+    this.view = view;
+  }
 
-    @Override
-    public SnapshotWriterResponse write(String path) {
-        dataAccess.persistData(path);
-        return view.prepareSuccessfulView();
-    }
+  @Override
+  public SnapshotWriterResponse write(String path) {
+    dataAccess.persistData(path);
+    return view.prepareSuccessfulView();
+  }
 }

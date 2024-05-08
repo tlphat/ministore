@@ -6,16 +6,16 @@ import name.tlphat.ministore.server.controllers.DataController;
 
 public class RightPushCommandExecutorImpl implements CommandExecutor {
 
-    private final DataController dataController;
+  private final DataController dataController;
 
-    public RightPushCommandExecutorImpl(DataController dataController) {
-        this.dataController = dataController;
-    }
+  public RightPushCommandExecutorImpl(DataController dataController) {
+    this.dataController = dataController;
+  }
 
-    @Override
-    public String execute(Tokens tokens) {
-        final String key = tokens.arguments().get(0);
-        final String value = tokens.arguments().get(1);
-        return dataController.rightPushStringList(key, value);
-    }
+  @Override
+  public String execute(Tokens tokens) {
+    final String key = tokens.arguments().get(0);
+    final String value = tokens.arguments().get(1);
+    return dataController.rightPushStringList(key, value);
+  }
 }

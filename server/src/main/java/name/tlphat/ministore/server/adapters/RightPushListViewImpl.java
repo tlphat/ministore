@@ -5,13 +5,13 @@ import name.tlphat.ministore.server.usecases.ports.RightPushListView;
 
 public class RightPushListViewImpl implements RightPushListView {
 
-    @Override
-    public String prepareSuccessfulView() {
-        return "OK";
-    }
+  @Override
+  public String prepareSuccessfulView() {
+    return "OK";
+  }
 
-    @Override
-    public String prepareFailedView(RightPushStringError error) {
-        return error.toString();
-    }
+  @Override
+  public String prepareFailedView(RightPushStringError error) {
+    return error.toString();
+  }
 }

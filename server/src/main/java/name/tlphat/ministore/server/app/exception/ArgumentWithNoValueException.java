@@ -1,4 +1,3 @@
 package name.tlphat.ministore.server.app.exception;
 
-public class ArgumentWithNoValueException extends IllegalArgumentException {
-}
+public class ArgumentWithNoValueException extends IllegalArgumentException {}

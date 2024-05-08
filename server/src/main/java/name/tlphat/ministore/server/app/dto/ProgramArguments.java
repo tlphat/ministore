@@ -5,6 +5,4 @@ import java.util.Optional;
 public record ProgramArguments(
     Optional<Integer> serverPort,
     Optional<String> snapshotPath,
-    Optional<Long> snapshotWriteDurationSecond
-) {
-}
+    Optional<Long> snapshotWriteDurationSecond) {}

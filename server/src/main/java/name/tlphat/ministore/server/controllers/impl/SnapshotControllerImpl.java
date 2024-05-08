@@ -19,25 +19,25 @@ import name.tlphat.ministore.server.store.DataStore;
 
 public class SnapshotControllerImpl implements SnapshotController {
 
-    private final DataStore dataStore;
+  private final DataStore dataStore;
 
-    public SnapshotControllerImpl(DataStore dataStore) {
-        this.dataStore = dataStore;
-    }
+  public SnapshotControllerImpl(DataStore dataStore) {
+    this.dataStore = dataStore;
+  }
 
-    @Override
-    public SnapshotLoaderResponse load(String path) {
-        final SnapshotLoaderDataAccess dataAccess = new SnapshotLoaderFileDataAccess(dataStore);
-        final SnapshotLoaderView view = new SnapshotLoaderViewImpl();
-        final SnapshotLoader loader = new SnapshotLoaderImpl(dataAccess, view);
-        return loader.load(path);
-    }
+  @Override
+  public SnapshotLoaderResponse load(String path) {
+    final SnapshotLoaderDataAccess dataAccess = new SnapshotLoaderFileDataAccess(dataStore);
+    final SnapshotLoaderView view = new SnapshotLoaderViewImpl();
+    final SnapshotLoader loader = new SnapshotLoaderImpl(dataAccess, view);
+    return loader.load(path);
+  }
 
-    @Override
-    public SnapshotWriterResponse write(String path) {
-        final SnapshotWriterDataAccess dataAccess = new SnapshotWriterFileDataAccess(dataStore);
-        final SnapshotWriterView view = new SnapshotWriterViewImpl();
-        final SnapshotWriter writer = new SnapshotWriterImpl(dataAccess, view);
-        return writer.write(path);
-    }
+  @Override
+  public SnapshotWriterResponse write(String path) {
+    final SnapshotWriterDataAccess dataAccess = new SnapshotWriterFileDataAccess(dataStore);
+    final SnapshotWriterView view = new SnapshotWriterViewImpl();
+    final SnapshotWriter writer = new SnapshotWriterImpl(dataAccess, view);
+    return writer.write(path);
+  }
 }

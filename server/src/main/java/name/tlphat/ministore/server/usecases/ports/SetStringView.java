@@ -4,7 +4,7 @@ import name.tlphat.ministore.server.usecases.constants.SetStringError;
 
 public interface SetStringView {
 
-    String prepareSuccessfulView();
+  String prepareSuccessfulView();
 
-    String prepareErrorView(SetStringError error);
+  String prepareErrorView(SetStringError error);
 }

@@ -2,7 +2,7 @@ package name.tlphat.ministore.server.usecases.ports;
 
 public interface GetListSizeDataAccess {
 
-    int getListSize(String key);
+  int getListSize(String key);
 
-    boolean isListExisted(String key);
+  boolean isListExisted(String key);
 }

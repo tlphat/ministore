@@ -7,25 +7,22 @@ import name.tlphat.ministore.server.usecases.ports.DecrementNumberView;
 
 public class DecrementNumberImpl implements DecrementNumberUseCase {
 
-    private final DecrementNumberDataAccess dataAccess;
-    private final DecrementNumberView view;
+  private final DecrementNumberDataAccess dataAccess;
+  private final DecrementNumberView view;
 
-    public DecrementNumberImpl(
-        DecrementNumberDataAccess dataAccess,
-        DecrementNumberView view
-    ) {
-        this.dataAccess = dataAccess;
-        this.view = view;
+  public DecrementNumberImpl(DecrementNumberDataAccess dataAccess, DecrementNumberView view) {
+    this.dataAccess = dataAccess;
+    this.view = view;
+  }
+
+  @Override
+  public String decrement(String key) {
+    if (!dataAccess.isKeyExisted(key)) {
+      return view.prepareFailedView(DecrementNumberError.NOT_EXISTED);
     }
 
-    @Override
-    public String decrement(String key) {
-        if (!dataAccess.isKeyExisted(key)) {
-            return view.prepareFailedView(DecrementNumberError.NOT_EXISTED);
-        }
+    dataAccess.decrement(key);
 
-        dataAccess.decrement(key);
-
-        return view.prepareSuccessfulView();
-    }
+    return view.prepareSuccessfulView();
+  }
 }

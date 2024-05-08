@@ -6,16 +6,16 @@ import name.tlphat.ministore.server.controllers.DataController;
 
 public class GetListElementExecutorImpl implements CommandExecutor {
 
-    private final DataController dataController;
+  private final DataController dataController;
 
-    public GetListElementExecutorImpl(DataController dataController) {
-        this.dataController = dataController;
-    }
+  public GetListElementExecutorImpl(DataController dataController) {
+    this.dataController = dataController;
+  }
 
-    @Override
-    public String execute(Tokens tokens) {
-        final String key = tokens.arguments().get(0);
-        final String index = tokens.arguments().get(1);
-        return dataController.getListElement(key, index);
-    }
+  @Override
+  public String execute(Tokens tokens) {
+    final String key = tokens.arguments().get(0);
+    final String index = tokens.arguments().get(1);
+    return dataController.getListElement(key, index);
+  }
 }

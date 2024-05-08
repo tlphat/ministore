@@ -7,19 +7,13 @@ import name.tlphat.ministore.server.persistence.ports.SnapshotLoaderView;
 
 public class SnapshotLoaderViewImpl implements SnapshotLoaderView {
 
-    @Override
-    public SnapshotLoaderResponse prepareSuccessfulView() {
-        return new SnapshotLoaderResponse(
-            SnapshotLoaderStatus.OK,
-            null
-        );
-    }
+  @Override
+  public SnapshotLoaderResponse prepareSuccessfulView() {
+    return new SnapshotLoaderResponse(SnapshotLoaderStatus.OK, null);
+  }
 
-    @Override
-    public SnapshotLoaderResponse prepareFailedView(SnapshotLoaderError error) {
-        return new SnapshotLoaderResponse(
-            SnapshotLoaderStatus.ERROR,
-            error.toString()
-        );
-    }
+  @Override
+  public SnapshotLoaderResponse prepareFailedView(SnapshotLoaderError error) {
+    return new SnapshotLoaderResponse(SnapshotLoaderStatus.ERROR, error.toString());
+  }
 }

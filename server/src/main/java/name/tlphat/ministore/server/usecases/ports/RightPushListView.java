@@ -4,7 +4,7 @@ import name.tlphat.ministore.server.usecases.constants.RightPushStringError;
 
 public interface RightPushListView {
 
-    String prepareSuccessfulView();
+  String prepareSuccessfulView();
 
-    String prepareFailedView(RightPushStringError error);
+  String prepareFailedView(RightPushStringError error);
 }

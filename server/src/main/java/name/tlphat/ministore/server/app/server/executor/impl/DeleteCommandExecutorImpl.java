@@ -6,15 +6,15 @@ import name.tlphat.ministore.server.controllers.DataController;
 
 public class DeleteCommandExecutorImpl implements CommandExecutor {
 
-    private final DataController dataController;
+  private final DataController dataController;
 
-    public DeleteCommandExecutorImpl(DataController dataController) {
-        this.dataController = dataController;
-    }
+  public DeleteCommandExecutorImpl(DataController dataController) {
+    this.dataController = dataController;
+  }
 
-    @Override
-    public String execute(Tokens tokens) {
-        final String key = tokens.arguments().get(0);
-        return dataController.deleteString(key);
-    }
+  @Override
+  public String execute(Tokens tokens) {
+    final String key = tokens.arguments().get(0);
+    return dataController.deleteString(key);
+  }
 }

@@ -5,14 +5,14 @@ import name.tlphat.ministore.server.usecases.ports.SetStringDataAccess;
 
 public class SetStringDataAccessImpl implements SetStringDataAccess {
 
-    private final DataStore dataStore;
+  private final DataStore dataStore;
 
-    public SetStringDataAccessImpl(DataStore dataStore) {
-        this.dataStore = dataStore;
-    }
+  public SetStringDataAccessImpl(DataStore dataStore) {
+    this.dataStore = dataStore;
+  }
 
-    @Override
-    public void set(String key, String value) {
-        dataStore.setString(key, value);
-    }
+  @Override
+  public void set(String key, String value) {
+    dataStore.setString(key, value);
+  }
 }

@@ -5,24 +5,24 @@ import name.tlphat.ministore.server.usecases.ports.GetListElementDataAccess;
 
 public class GetListElementDataAccessImpl implements GetListElementDataAccess {
 
-    private final DataStore dataStore;
+  private final DataStore dataStore;
 
-    public GetListElementDataAccessImpl(DataStore dataStore) {
-        this.dataStore = dataStore;
-    }
+  public GetListElementDataAccessImpl(DataStore dataStore) {
+    this.dataStore = dataStore;
+  }
 
-    @Override
-    public boolean isListExisted(String key) {
-        return dataStore.isListExisted(key);
-    }
+  @Override
+  public boolean isListExisted(String key) {
+    return dataStore.isListExisted(key);
+  }
 
-    @Override
-    public int getListSize(String key) {
-        return dataStore.getListSize(key);
-    }
+  @Override
+  public int getListSize(String key) {
+    return dataStore.getListSize(key);
+  }
 
-    @Override
-    public String getElementAtIndex(String key, int index) {
-        return dataStore.getListElementAtIndex(key, index);
-    }
+  @Override
+  public String getElementAtIndex(String key, int index) {
+    return dataStore.getListElementAtIndex(key, index);
+  }
 }

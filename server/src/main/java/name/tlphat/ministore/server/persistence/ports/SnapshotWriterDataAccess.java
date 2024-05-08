@@ -2,5 +2,5 @@ package name.tlphat.ministore.server.persistence.ports;
 
 public interface SnapshotWriterDataAccess {
 
-    void persistData(String path);
+  void persistData(String path);
 }

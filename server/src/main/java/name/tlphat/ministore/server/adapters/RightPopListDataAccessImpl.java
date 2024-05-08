@@ -5,30 +5,30 @@ import name.tlphat.ministore.server.usecases.ports.RightPopListDataAccess;
 
 public class RightPopListDataAccessImpl implements RightPopListDataAccess {
 
-    private final DataStore dataStore;
+  private final DataStore dataStore;
 
-    public RightPopListDataAccessImpl(DataStore dataStore) {
-        this.dataStore = dataStore;
-    }
+  public RightPopListDataAccessImpl(DataStore dataStore) {
+    this.dataStore = dataStore;
+  }
 
-    @Override
-    public boolean isKeyExisted(String key) {
-        return dataStore.isListExisted(key);
-    }
+  @Override
+  public boolean isKeyExisted(String key) {
+    return dataStore.isListExisted(key);
+  }
 
-    @Override
-    public boolean isListEmpty(String key) {
-        final int listSize = dataStore.getListSize(key);
-        return listSize == 0;
-    }
+  @Override
+  public boolean isListEmpty(String key) {
+    final int listSize = dataStore.getListSize(key);
+    return listSize == 0;
+  }
 
-    @Override
-    public String rightPop(String key) {
-        return dataStore.getAndPopRightmostElement(key);
-    }
+  @Override
+  public String rightPop(String key) {
+    return dataStore.getAndPopRightmostElement(key);
+  }
 
-    @Override
-    public void removeList(String key) {
-        dataStore.removeList(key);
-    }
+  @Override
+  public void removeList(String key) {
+    dataStore.removeList(key);
+  }
 }

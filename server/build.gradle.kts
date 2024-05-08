@@ -1,5 +1,6 @@
 plugins {
     application
+    checkstyle
     idea
     jacoco
 }
@@ -26,6 +27,11 @@ dependencies {
 
     testImplementation("org.awaitility:awaitility:4.2.1")
     testImplementation("org.awaitility:awaitility-proxy:3.1.6")
+}
+
+checkstyle {
+    toolVersion = "10.16.0"
+    configDirectory.set(file("config/checkstyle"))
 }
 
 tasks.withType<Jar> {

@@ -5,7 +5,7 @@ import name.tlphat.ministore.server.persistence.dto.SnapshotLoaderResponse;
 
 public interface SnapshotLoaderView {
 
-    SnapshotLoaderResponse prepareSuccessfulView();
+  SnapshotLoaderResponse prepareSuccessfulView();
 
-    SnapshotLoaderResponse prepareFailedView(SnapshotLoaderError error);
+  SnapshotLoaderResponse prepareFailedView(SnapshotLoaderError error);
 }

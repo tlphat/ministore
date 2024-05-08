@@ -7,25 +7,22 @@ import name.tlphat.ministore.server.usecases.ports.DeleteStringView;
 
 public class DeleteStringImpl implements DeleteStringUseCase {
 
-    private final DeleteStringDataAccess dataAccess;
-    private final DeleteStringView view;
+  private final DeleteStringDataAccess dataAccess;
+  private final DeleteStringView view;
 
-    public DeleteStringImpl(
-        DeleteStringDataAccess dataAccess,
-        DeleteStringView view
-    ) {
-        this.dataAccess = dataAccess;
-        this.view = view;
+  public DeleteStringImpl(DeleteStringDataAccess dataAccess, DeleteStringView view) {
+    this.dataAccess = dataAccess;
+    this.view = view;
+  }
+
+  @Override
+  public String delete(String key) {
+    if (dataAccess.keyNotExisted(key)) {
+      return view.prepareFailedView(DeleteStringError.NOT_EXISTED);
     }
 
-    @Override
-    public String delete(String key) {
-        if (dataAccess.keyNotExisted(key)) {
-            return view.prepareFailedView(DeleteStringError.NOT_EXISTED);
-        }
+    dataAccess.removeKey(key);
 
-        dataAccess.removeKey(key);
-
-        return view.prepareSuccessfulView();
-    }
+    return view.prepareSuccessfulView();
+  }
 }

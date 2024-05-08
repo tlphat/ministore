@@ -4,7 +4,7 @@ import name.tlphat.ministore.server.usecases.constants.GetStringError;
 
 public interface GetStringView {
 
-    String prepareSuccessfulView(String response);
+  String prepareSuccessfulView(String response);
 
-    String prepareFailedView(GetStringError error);
+  String prepareFailedView(GetStringError error);
 }

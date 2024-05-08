@@ -7,25 +7,22 @@ import name.tlphat.ministore.server.usecases.ports.IncrementNumberView;
 
 public class IncrementNumberImpl implements IncrementNumberUseCase {
 
-    private final IncrementNumberDataAccess dataAccess;
-    private final IncrementNumberView view;
+  private final IncrementNumberDataAccess dataAccess;
+  private final IncrementNumberView view;
 
-    public IncrementNumberImpl(
-        IncrementNumberDataAccess dataAccess,
-        IncrementNumberView view
-    ) {
-        this.dataAccess = dataAccess;
-        this.view = view;
+  public IncrementNumberImpl(IncrementNumberDataAccess dataAccess, IncrementNumberView view) {
+    this.dataAccess = dataAccess;
+    this.view = view;
+  }
+
+  @Override
+  public String increment(String key) {
+    if (!dataAccess.isKeyExisted(key)) {
+      return view.prepareFailedView(IncrementNumberError.NOT_EXISTED);
     }
 
-    @Override
-    public String increment(String key) {
-        if (!dataAccess.isKeyExisted(key)) {
-            return view.prepareFailedView(IncrementNumberError.NOT_EXISTED);
-        }
+    dataAccess.increment(key);
 
-        dataAccess.increment(key);
-
-        return view.prepareSuccessfulView();
-    }
+    return view.prepareSuccessfulView();
+  }
 }

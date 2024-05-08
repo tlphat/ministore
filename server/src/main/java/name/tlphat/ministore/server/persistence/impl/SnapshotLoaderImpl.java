@@ -8,25 +8,22 @@ import name.tlphat.ministore.server.persistence.ports.SnapshotLoaderView;
 
 public class SnapshotLoaderImpl implements SnapshotLoader {
 
-    private final SnapshotLoaderDataAccess dataAccess;
-    private final SnapshotLoaderView view;
+  private final SnapshotLoaderDataAccess dataAccess;
+  private final SnapshotLoaderView view;
 
-    public SnapshotLoaderImpl(
-        SnapshotLoaderDataAccess dataAccess,
-        SnapshotLoaderView view
-    ) {
-        this.dataAccess = dataAccess;
-        this.view = view;
+  public SnapshotLoaderImpl(SnapshotLoaderDataAccess dataAccess, SnapshotLoaderView view) {
+    this.dataAccess = dataAccess;
+    this.view = view;
+  }
+
+  @Override
+  public SnapshotLoaderResponse load(String path) {
+    if (dataAccess.failToConnect(path)) {
+      return view.prepareFailedView(SnapshotLoaderError.STORAGE_CONNECT_FAILED);
     }
 
-    @Override
-    public SnapshotLoaderResponse load(String path) {
-        if (dataAccess.failToConnect(path)) {
-            return view.prepareFailedView(SnapshotLoaderError.STORAGE_CONNECT_FAILED);
-        }
+    dataAccess.load(path);
 
-        dataAccess.load(path);
-
-        return view.prepareSuccessfulView();
-    }
+    return view.prepareSuccessfulView();
+  }
 }

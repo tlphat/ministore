@@ -7,41 +7,38 @@ import name.tlphat.ministore.server.usecases.ports.GetListElementView;
 
 public class GetListElementImpl implements GetListElementUseCase {
 
-    private final GetListElementDataAccess dataAccess;
-    private final GetListElementView view;
+  private final GetListElementDataAccess dataAccess;
+  private final GetListElementView view;
 
-    public GetListElementImpl(
-        GetListElementDataAccess dataAccess,
-        GetListElementView view
-    ) {
-        this.dataAccess = dataAccess;
-        this.view = view;
+  public GetListElementImpl(GetListElementDataAccess dataAccess, GetListElementView view) {
+    this.dataAccess = dataAccess;
+    this.view = view;
+  }
+
+  @Override
+  public String getElementAtIndex(String key, int index) {
+    if (indexOutOfLowerBound(index)) {
+      return view.prepareFailedView(GetListElementError.INDEX_OUT_OF_BOUND);
     }
 
-    @Override
-    public String getElementAtIndex(String key, int index) {
-        if (indexOutOfLowerBound(index)) {
-            return view.prepareFailedView(GetListElementError.INDEX_OUT_OF_BOUND);
-        }
-
-        if (!dataAccess.isListExisted(key)) {
-            return view.prepareFailedView(GetListElementError.NOT_EXISTED);
-        }
-
-        if (indexOutOfUpperBound(key, index)) {
-            return view.prepareFailedView(GetListElementError.INDEX_OUT_OF_BOUND);
-        }
-
-        final String element = dataAccess.getElementAtIndex(key, index);
-
-        return view.prepareSuccessfulView(element);
+    if (!dataAccess.isListExisted(key)) {
+      return view.prepareFailedView(GetListElementError.NOT_EXISTED);
     }
 
-    private boolean indexOutOfLowerBound(int index) {
-        return index < 0;
+    if (indexOutOfUpperBound(key, index)) {
+      return view.prepareFailedView(GetListElementError.INDEX_OUT_OF_BOUND);
     }
 
-    private boolean indexOutOfUpperBound(String key, int index) {
-        return index >= dataAccess.getListSize(key);
-    }
+    final String element = dataAccess.getElementAtIndex(key, index);
+
+    return view.prepareSuccessfulView(element);
+  }
+
+  private boolean indexOutOfLowerBound(int index) {
+    return index < 0;
+  }
+
+  private boolean indexOutOfUpperBound(String key, int index) {
+    return index >= dataAccess.getListSize(key);
+  }
 }

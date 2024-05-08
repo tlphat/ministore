@@ -4,7 +4,7 @@ import name.tlphat.ministore.server.usecases.constants.DeleteStringError;
 
 public interface DeleteStringView {
 
-    String prepareSuccessfulView();
+  String prepareSuccessfulView();
 
-    String prepareFailedView(DeleteStringError error);
+  String prepareFailedView(DeleteStringError error);
 }

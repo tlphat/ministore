@@ -5,7 +5,7 @@ import name.tlphat.ministore.server.persistence.dto.SnapshotWriterResponse;
 
 public interface SnapshotController {
 
-    SnapshotLoaderResponse load(String path);
+  SnapshotLoaderResponse load(String path);
 
-    SnapshotWriterResponse write(String path);
+  SnapshotWriterResponse write(String path);
 }

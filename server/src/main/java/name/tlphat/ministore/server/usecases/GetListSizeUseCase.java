@@ -2,5 +2,5 @@ package name.tlphat.ministore.server.usecases;
 
 public interface GetListSizeUseCase {
 
-    String getSize(String key);
+  String getSize(String key);
 }

@@ -4,5 +4,5 @@ import name.tlphat.ministore.server.persistence.dto.SnapshotLoaderResponse;
 
 public interface SnapshotLoader {
 
-    SnapshotLoaderResponse load(String path);
+  SnapshotLoaderResponse load(String path);
 }

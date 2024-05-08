@@ -7,24 +7,21 @@ import name.tlphat.ministore.server.usecases.ports.GetListSizeView;
 
 public class GetListSizeImpl implements GetListSizeUseCase {
 
-    private final GetListSizeDataAccess dataAccess;
-    private final GetListSizeView view;
+  private final GetListSizeDataAccess dataAccess;
+  private final GetListSizeView view;
 
-    public GetListSizeImpl(
-        GetListSizeDataAccess dataAccess,
-        GetListSizeView view
-    ) {
-        this.dataAccess = dataAccess;
-        this.view = view;
+  public GetListSizeImpl(GetListSizeDataAccess dataAccess, GetListSizeView view) {
+    this.dataAccess = dataAccess;
+    this.view = view;
+  }
+
+  @Override
+  public String getSize(String key) {
+    if (!dataAccess.isListExisted(key)) {
+      return view.prepareFailedView(GetListSizeError.NOT_EXISTED);
     }
 
-    @Override
-    public String getSize(String key) {
-        if (!dataAccess.isListExisted(key)) {
-            return view.prepareFailedView(GetListSizeError.NOT_EXISTED);
-        }
-
-        final int listSize = dataAccess.getListSize(key);
-        return view.prepareSuccessfulView(listSize);
-    }
+    final int listSize = dataAccess.getListSize(key);
+    return view.prepareSuccessfulView(listSize);
+  }
 }

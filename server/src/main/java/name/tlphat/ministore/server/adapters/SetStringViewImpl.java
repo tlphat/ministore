@@ -5,13 +5,13 @@ import name.tlphat.ministore.server.usecases.ports.SetStringView;
 
 public class SetStringViewImpl implements SetStringView {
 
-    @Override
-    public String prepareSuccessfulView() {
-        return "OK";
-    }
+  @Override
+  public String prepareSuccessfulView() {
+    return "OK";
+  }
 
-    @Override
-    public String prepareErrorView(SetStringError error) {
-        return error.toString();
-    }
+  @Override
+  public String prepareErrorView(SetStringError error) {
+    return error.toString();
+  }
 }

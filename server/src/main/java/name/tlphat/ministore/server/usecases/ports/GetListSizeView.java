@@ -4,7 +4,7 @@ import name.tlphat.ministore.server.usecases.constants.GetListSizeError;
 
 public interface GetListSizeView {
 
-    String prepareSuccessfulView(int size);
+  String prepareSuccessfulView(int size);
 
-    String prepareFailedView(GetListSizeError error);
+  String prepareFailedView(GetListSizeError error);
 }

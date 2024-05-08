@@ -4,31 +4,31 @@ import java.util.List;
 
 public interface DataStore {
 
-    String getStringValue(String key);
+  String getStringValue(String key);
 
-    void setString(String key, String value);
+  void setString(String key, String value);
 
-    void appendToList(String key, String value);
+  void appendToList(String key, String value);
 
-    boolean isListExisted(String key);
+  boolean isListExisted(String key);
 
-    int getListSize(String key);
+  int getListSize(String key);
 
-    String getAndPopRightmostElement(String key);
+  String getAndPopRightmostElement(String key);
 
-    boolean isStringExisted(String key);
+  boolean isStringExisted(String key);
 
-    void removeList(String key);
+  void removeList(String key);
 
-    String getListElementAtIndex(String key, int index);
+  String getListElementAtIndex(String key, int index);
 
-    byte[] serializeData();
+  byte[] serializeData();
 
-    void deserializeFromData(byte[] data);
+  void deserializeFromData(byte[] data);
 
-    void removeKey(String key);
+  void removeKey(String key);
 
-    List<String> getSingletonKeys();
+  List<String> getSingletonKeys();
 
-    List<String> getListKeys();
+  List<String> getListKeys();
 }

@@ -4,5 +4,5 @@ import name.tlphat.ministore.server.persistence.dto.SnapshotWriterResponse;
 
 public interface SnapshotWriterView {
 
-    SnapshotWriterResponse prepareSuccessfulView();
+  SnapshotWriterResponse prepareSuccessfulView();
 }
