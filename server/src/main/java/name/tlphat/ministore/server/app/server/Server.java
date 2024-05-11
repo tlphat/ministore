@@ -13,6 +13,10 @@ import name.tlphat.ministore.server.controllers.DataController;
 import name.tlphat.ministore.server.controllers.impl.DataControllerImpl;
 import name.tlphat.ministore.server.store.DataStore;
 
+/**
+ * Represents a server that accepts non-persistent client connections and handles them
+ * asynchronously.
+ */
 @Slf4j
 public class Server {
 
@@ -21,6 +25,12 @@ public class Server {
 
   private final ServerSocket serverSocket;
 
+  /**
+   * Constructs a Server object wrapping a parser, an executor generator, and a socket instance.
+   *
+   * @param dataStore non-null store instance
+   * @param serverSocket non-null server socket
+   */
   public Server(DataStore dataStore, ServerSocket serverSocket) {
     this.serverSocket = serverSocket;
 
@@ -30,6 +40,12 @@ public class Server {
     commandExecutorFactory = new CommandExecutorFactory(dataController);
   }
 
+  /**
+   * Listens to a new client connection and creates a new thread to handle it. This method uses
+   * non-persistent handler, which closes the connection right after sending the response to client.
+   * Also, this method got blocked until a new connection is accepted. Any IOException got thrown is
+   * silently ignored, and an error will be logged.
+   */
   public void handleNewConnection() {
     try {
       final Socket socket = serverSocket.accept();

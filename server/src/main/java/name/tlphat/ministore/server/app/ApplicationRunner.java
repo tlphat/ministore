@@ -17,6 +17,7 @@ import name.tlphat.ministore.server.persistence.dto.SnapshotWriterStatus;
 import name.tlphat.ministore.server.store.DataStore;
 import name.tlphat.ministore.server.store.impl.InMemoryStore;
 
+/** Represents an application runner that initializes and runs the application. */
 @Slf4j
 public class ApplicationRunner {
 
@@ -31,6 +32,12 @@ public class ApplicationRunner {
   private final String snapshotPath;
   private final long snapshotWriteDurationSecond;
 
+  /**
+   * Initializes an ApplicationRunner object with the specified program arguments.
+   *
+   * @param programArguments represents a successfully-parsed collection of arguments that got
+   *     passed to the application at run time
+   */
   public ApplicationRunner(ProgramArguments programArguments) {
     serverPort = programArguments.serverPort().orElse(DEFAULT_SERVER_PORT);
     snapshotPath = programArguments.snapshotPath().orElse(DEFAULT_SNAPSHOT_PATH);
@@ -49,6 +56,10 @@ public class ApplicationRunner {
     return ready;
   }
 
+  /**
+   * Loads data from the snapshot file, creates a scheduled thread for dumping data, and setups the
+   * server that continuously listens and processes client connections.
+   */
   public void run() {
     log.info("Application is starting on port {}", serverPort);
 
